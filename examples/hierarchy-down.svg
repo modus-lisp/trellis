@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="356.0" height="250.9" viewBox="-4 -4 356.0 250.9">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#556"/></marker></defs>
+<rect x="0" y="0" width="348.0" height="242.9" fill="#fbfbfd"/>
+<rect x="144.0" y="12.0" width="60.0" height="30.0" rx="3" fill="#ffffff" stroke="#334" stroke-width="1"/>
+<text x="153.0" y="31.2" font-size="11" font-family="sans-serif">client</text>
+<rect x="12.0" y="62.0" width="324.0" height="68.9" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="153.0" y="77.2" font-size="11" font-family="sans-serif">server</text>
+<rect x="24.0" y="74.0" width="60.0" height="30.0" rx="3" fill="#ffffff" stroke="#334" stroke-width="1"/>
+<text x="33.0" y="93.2" font-size="11" font-family="sans-serif">accept</text>
+<rect x="104.0" y="74.0" width="60.0" height="30.0" rx="3" fill="#ffffff" stroke="#334" stroke-width="1"/>
+<text x="120.0" y="93.2" font-size="11" font-family="sans-serif">read</text>
+<rect x="184.0" y="88.9" width="60.0" height="30.0" rx="3" fill="#ffffff" stroke="#334" stroke-width="1"/>
+<text x="193.0" y="108.1" font-size="11" font-family="sans-serif">handle</text>
+<rect x="264.0" y="74.9" width="60.0" height="30.0" rx="3" fill="#ffffff" stroke="#334" stroke-width="1"/>
+<text x="276.5" y="94.1" font-size="11" font-family="sans-serif">write</text>
+<rect x="167.9" y="150.9" width="60.0" height="30.0" rx="3" fill="#ffffff" stroke="#334" stroke-width="1"/>
+<text x="190.9" y="170.1" font-size="11" font-family="sans-serif">db</text>
+<rect x="145.4" y="200.9" width="60.0" height="30.0" rx="3" fill="#ffffff" stroke="#334" stroke-width="1"/>
+<text x="164.9" y="220.1" font-size="11" font-family="sans-serif">log</text>
+<path d="M174.0 42.0 L174.0 62.0" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M228.0 130.9 L228.0 140.9 L197.9 140.9 L197.9 150.9" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M120.0 130.9 L120.0 140.9 L157.9 140.9 L157.9 190.9 L165.4 190.9 L165.4 200.9" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M197.9 180.9 L197.9 190.9 L185.4 190.9 L185.4 200.9" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M84.0 89.0 L104.0 89.0" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M164.0 94.0 L174.0 94.0 L174.0 103.9 L184.0 103.9" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M244.0 103.9 L254.0 103.9 L254.0 94.9 L264.0 94.9" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M264.0 84.9 L254.0 84.9 L254.0 78.9 L174.0 78.9 L174.0 84.0 L164.0 84.0" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+</svg>
