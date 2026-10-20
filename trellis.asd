@@ -1,9 +1,9 @@
-;;;; diagram.asd -- Eclipse Layout Kernel, ported to Common Lisp.
+;;;; trellis.asd -- Eclipse Layout Kernel, ported to Common Lisp.
 ;;;;
 ;;;; The component list is read from src/MODULES and each module's files.txt,
 ;;;; so modules can be ported independently (see PORTING.md).
 
-(defun diagram-module-components (base)
+(defun trellis-module-components (base)
   (flet ((lines (path)
            (with-open-file (s path :if-does-not-exist nil)
              (when s
@@ -20,9 +20,9 @@
   (let ((*read-default-float-format* 'double-float))
     (funcall thunk)))
 
-(eval `(asdf:defsystem "diagram"
+(eval `(asdf:defsystem "trellis"
          :description "Eclipse Layout Kernel (ELK), ported to Common Lisp"
          :license "EPL-2.0"
          :serial t
          :around-compile call-with-java-reader
-         :components ,(diagram-module-components (directory-namestring *load-truename*))))
+         :components ,(trellis-module-components (directory-namestring *load-truename*))))

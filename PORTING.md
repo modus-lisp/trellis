@@ -179,7 +179,7 @@ ELK; a cloneable class mixes in `jcloneable` and defines `jclone`.
 ## Files and loading
 
 - Each module directory has a `files.txt` listing its files in load order;
-  the system definition (`diagram.asd`) reads them.  Put class definitions
+  the system definition (`trellis.asd`) reads them.  Put class definitions
   (`defjclass`, `defjinterface`) before methods that specialize on them —
   a module's first file is usually `classes.lisp` with all its classes.
 - One Java package → one Lisp file (or a few for big packages), named after

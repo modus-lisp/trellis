@@ -5,6 +5,6 @@
 (defpackage #:elk
   (:use #:cl))
 
-(defpackage #:diagram
+(defpackage #:trellis
   (:use #:cl)
   (:export #:layout-json #:layout #:graph->svg #:read-elkt #:read-graph-file))
