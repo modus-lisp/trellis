@@ -73,8 +73,11 @@
 
 (defun %p5-all-external-p (nodes)
   "Iterables.all(nodes, PRED_EXTERNAL_WEST_OR_EAST_PORT)"
-  (block nil
-    (jdo (n nodes) (unless (funcall polyline-edge-router.pred-external-west-or-east-port n) (return nil)))
+  ;; RETURN inside JDO exits the JDO's own block, not this function, so this
+  ;; must return from a named block: otherwise it always answers T.
+  (block all
+    (jdo (n nodes) (unless (funcall polyline-edge-router.pred-external-west-or-east-port n)
+                     (return-from all nil)))
     t))
 
 (defconstant +p5-min-vert-diff+ 1d0)
