@@ -504,8 +504,12 @@ dispatches to the generic J-GET."
 (defun jl-copy (l) (jlist-from l))
 (defun jl-reverse (l) "Collections.reverse, in place." (let ((r (reverse l))) (replace l r) l))
 (defun jl-sort (l cmp)
-  "Collections.sort / List.sort: stable, comparator returns an int."
-  (let ((sorted (stable-sort (subseq l 0) (lambda (a b) (< (funcall cmp a b) 0)))))
+  "Collections.sort / List.sort: stable, comparator returns an int.
+CMP is a function or symbol, or a Comparator object whose compare/2 is called."
+  (let* ((fn (if (or (functionp cmp) (symbolp cmp))
+                 cmp
+                 (lambda (a b) (funcall (jfun compare 2) cmp a b))))
+         (sorted (stable-sort (subseq l 0) (lambda (a b) (< (funcall fn a b) 0)))))
     (replace l sorted) l))
 (defun jl-sort-natural (l) (jl-sort l #'jcompare))
 (defun jl-remove-if (l pred)
