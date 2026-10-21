@@ -57,9 +57,10 @@
                     (assert-true (%lcpt-contains-only last (- last-layer 1))))))
               (let ((last (get-c layer-constraint.last)))
                 (when last
-                  (assert-true (%lcpt-contains-only last last-layer))))))))))
+                  (assert-true (%lcpt-contains-only last last-layer)))))))))
 
   (:after-processor no-empty-layers
     (:processors (layer-constraint-postprocessor)) (graph)
     (jdo (layer (get-layers graph))
-      (assert-true (not (is-empty (get-nodes layer))))))
+      (assert-true (not (is-empty (get-nodes layer)))))))
+

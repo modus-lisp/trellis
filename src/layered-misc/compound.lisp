@@ -547,7 +547,7 @@
           ;; whether this part of the code should actually be used with anything other than fixed port constraints.
           (setf dummy-node
                 (l-graph-util.create-external-port-dummy
-                 (create-external-port-properties graph)
+                 (compound-graph-preprocessor.create-external-port-properties graph)
                  (get-property parent-node layered-options.port-constraints)
                  port-side
                  (if (eq port-type port-type.input) -1 1)
@@ -568,7 +568,7 @@
         (set-property graph layered-options.port-constraints port-constraints.free))
     dummy-node))
 
-(defun create-external-port-properties (graph)
+(defjstatic compound-graph-preprocessor.create-external-port-properties (graph)
   (let ((property-holder (new-map-property-holder/0)))
     ;; FIXME No idea why ...
     (let ((offset (/ (get-property graph layered-options.spacing-edge-edge) 2d0)))
@@ -625,7 +625,7 @@
                      (get-nested-graph reference-node)
                      (get-graph reference-node)))
                ;; check whether there are any junction points
-               (junction-points (clear-junction-points orig-edge cross-hierarchy-edges))
+               (junction-points (compound-graph-postprocessor.clear-junction-points orig-edge cross-hierarchy-edges))
                (last-point nil))
           ;; reset bend points (we have computed new ones anyway)
           (%xh-clear-chain (get-bend-points orig-edge))
@@ -662,7 +662,7 @@
                                        source-point
                                        (get-last bend-points)))
                   ;; copy junction points
-                  (copy-junction-points ledge junction-points offset)
+                  (compound-graph-postprocessor.copy-junction-points ledge junction-points offset)
                   ;; add offset to target port with a special property
                   (when (eq (get-actual-target ch-edge) target-port)
                     (when (not (eq (get-graph (get-node target-port)) (get-graph ch-edge)))
@@ -672,7 +672,7 @@
                                                         reference-graph))
                     (set-property orig-edge layered-internal-properties.target-offset offset))
                   ;; copy labels back to the original edge
-                  (copy-labels-back ledge orig-edge reference-graph)
+                  (compound-graph-postprocessor.copy-labels-back ledge orig-edge reference-graph)
                   ;; remember the dummy edge for later removal (dummy edges may be in use by several
                   ;; different original edges, which is why we cannot just go and remove it now)
                   (js-add dummy-edges ledge)))))
@@ -685,7 +685,7 @@
       (set-target dummy-edge nil))
     (done monitor)))
 
-(defun clear-junction-points (orig-edge cross-hierarchy-edges)
+(defjstatic compound-graph-postprocessor.clear-junction-points (orig-edge cross-hierarchy-edges)
   (let ((junction-points (get-property orig-edge layered-options.junction-points)))
     (if (some (lambda (ch-edge)
                 (let ((jps (get-property (get-edge ch-edge) layered-options.junction-points)))
@@ -701,7 +701,7 @@
           (set-property orig-edge layered-options.junction-points nil)))
     junction-points))
 
-(defun copy-junction-points (source target offset)
+(defjstatic compound-graph-postprocessor.copy-junction-points (source target offset)
   (let ((ledge-jps (get-property source layered-options.junction-points)))
     (when ledge-jps
       (let ((jp-copies (new-k-vector-chain/0)))
@@ -709,7 +709,7 @@
         (offset jp-copies offset)
         (add-all target jp-copies)))))
 
-(defun copy-labels-back (hierarchy-segment orig-edge reference-graph)
+(defjstatic compound-graph-postprocessor.copy-labels-back (hierarchy-segment orig-edge reference-graph)
   (jdo (curr-label (jlist-from (get-labels hierarchy-segment)))
     (when (eq (get-property curr-label layered-internal-properties.original-label-edge) orig-edge)
       (l-graph-util.change-coord-system

@@ -13,7 +13,7 @@
           do (assert-true (not (string> prev curr))))))
 
 (defun %els-label-texts (labels)
-  (mapcar #'get-text (coerce (jiterable-items labels) 'list)))
+  (mapcar (jfun get-text 0) (coerce (jiterable-items labels) 'list)))
 
 (defun %els-test-node (node)
   (let ((type (get-type node)))
@@ -26,7 +26,7 @@
       ((eq type node-type.label)
        (let ((labels (get-property node layered-internal-properties.represented-labels)))
          (assert-not-null labels)
-         (%els-fail-if-unsorted (mapcar #'get-text (coerce (jiterable-items labels) 'list))))))))
+         (%els-fail-if-unsorted (mapcar (jfun get-text 0) (coerce (jiterable-items labels) 'list))))))))
 
 (deflayouttest end-label-sorter-test
   (:algorithm "org.eclipse.elk.layered")

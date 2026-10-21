@@ -40,6 +40,16 @@ Idempotent: a name already defined keeps its macro."
 (defmacro define-jcalls (kind &rest names)
   `(progn ,@(loop for n in names collect `(define-jcall ,n ,kind))))
 
+;; Declared before any use in this file, so the uses compile as macro calls.
+(define-jcalls :instance size is-empty add add-all j-get j-set contains contains-all
+  index-of last-index-of j-remove clear put put-all get-or-default contains-key
+  contains-value key-set j-values poll poll-first poll-last peek peek-first
+  peek-last offer add-first add-last remove-first remove-last get-first get-last
+  j-push j-pop sub-list to-array j-sort for-each element iterator j-stream
+  put-if-absent compute-if-absent j-first j-last)
+(define-jcall equals :instance)
+(define-jcalls :instance next-int next-double next-boolean next-float next-long next-gaussian set-seed)
+
 (defmacro jfun (name arity)
   "The function object behind a call macro, for FUNCALL/MAPCAR: (jfun get-x 0)."
   `(function ,(arity-symbol name arity)))
@@ -372,7 +382,7 @@ With FIELDS, each constant is (CONST field-values...)."
   (cond ((and (stringp a) (stringp b)) (string= a b))
         ((and (numberp a) (numberp b)) (= a b))
         (t (eql a b))))
-(define-jcall equals :instance)
+
 (defun jequals (a b)
   "Objects.equals"
   (cond ((null a) (null b)) ((null b) nil) (t (equals/1 a b))))
@@ -557,12 +567,7 @@ CMP is a function or symbol, or a Comparator object whose compare/2 is called."
 ;;; Generic collection methods, so (size x) (add x y) (get x i) ... also work
 ;;; on built-in collections and on ported classes that extend a collection.
 
-(define-jcalls :instance size is-empty add add-all j-get j-set contains contains-all
-  index-of last-index-of j-remove clear put put-all get-or-default contains-key
-  contains-value key-set j-values poll poll-first poll-last peek peek-first
-  peek-last offer add-first add-last remove-first remove-last get-first get-last
-  j-push j-pop sub-list to-array j-sort for-each element iterator j-stream
-  put-if-absent compute-if-absent j-first j-last)
+
 
 (defmethod size/0 ((c t)) (jsize c))
 (defmethod is-empty/0 ((c t)) (zerop (jsize c)))
@@ -744,7 +749,7 @@ CMP is a function or symbol, or a Comparator object whose compare/2 is called."
               (setf (.next-next-gaussian r) (* v2 mul) (.have-next-next-gaussian r) t)
               (return (* v1 mul))))))))
 
-(define-jcalls :instance next-int next-double next-boolean next-float next-long next-gaussian set-seed)
+
 (defmethod next-int/0 ((r java-random)) (random-next-int r))
 (defmethod next-int/1 ((r java-random) b) (random-next-int r b))
 (defmethod next-double/0 ((r java-random)) (random-next-double r))

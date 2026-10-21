@@ -44,9 +44,9 @@
                       second-loops))
     (let ((sl-holder (self-loop-holder.install l-node)))
       (assert-equals 2 (size (get-sl-hyper-loops sl-holder)))
-      (let ((first-hl-edges (mapcar #'get-l-edge
+      (let ((first-hl-edges (mapcar (jfun get-l-edge 0)
                                     (coerce (jiterable-items (get-sl-edges (j-get (get-sl-hyper-loops sl-holder) 0))) 'list)))
-            (second-hl-edges (mapcar #'get-l-edge
+            (second-hl-edges (mapcar (jfun get-l-edge 0)
                                      (coerce (jiterable-items (get-sl-edges (j-get (get-sl-hyper-loops sl-holder) 1))) 'list))))
         (let ((match (and (%slht-same-set-p first-hl-edges first-loops)
                           (%slht-same-set-p second-hl-edges second-loops))))
