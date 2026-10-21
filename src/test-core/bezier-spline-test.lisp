@@ -1,0 +1,60 @@
+;;;; bezier-spline-test.lisp -- port of org.eclipse.elk.core.math.BezierSplineTest.
+
+(in-package #:elk)
+
+(defun %bst-horizontal ()
+  (let* ((start (new-k-vector 0 50)) (fst (new-k-vector 10 50))
+         (snd (new-k-vector 20 50)) (end (new-k-vector 30 50))
+         (bs (new-bezier-spline)))
+    (add-curve bs start fst snd end)
+    (values bs start end)))
+
+(defun %bst-vertical ()
+  (let* ((start (new-k-vector 50 0)) (fst (new-k-vector 50 20))
+         (snd (new-k-vector 50 40)) (end (new-k-vector 50 50))
+         (bs (new-bezier-spline)))
+    (add-curve bs start fst snd end)
+    (values bs start end)))
+
+(defcore-class bezier-spline-test
+  ("testGetStartPoint"
+   (multiple-value-bind (bs start) (%bst-vertical)
+     (let ((v (get-start-point bs)))
+       (assert-near (.x start) (.x v) 0)
+       (assert-near (.y start) (.y v) 0)))
+   (multiple-value-bind (bs start) (%bst-horizontal)
+     (let ((v (get-start-point bs)))
+       (assert-near (.x start) (.x v) 0)
+       (assert-near (.y start) (.y v) 0))))
+  ("testGetEndPoint"
+   (multiple-value-bind (bs start end) (%bst-vertical)
+     (declare (ignore start))
+     (let ((v (get-end-point bs)))
+       (assert-near (.x end) (.x v) 0)
+       (assert-near (.y end) (.y v) 0)))
+   (multiple-value-bind (bs start end) (%bst-horizontal)
+     (declare (ignore start))
+     (let ((v (get-end-point bs)))
+       (assert-near (.x end) (.x v) 0)
+       (assert-near (.y end) (.y v) 0))))
+  ("testGetInnerPoints"
+   (multiple-value-bind (bs start) (%bst-vertical)
+     (jdo (v (get-inner-points bs))
+       (assert-near (.x start) (.x v) 0.00000001)))
+   (multiple-value-bind (bs start) (%bst-horizontal)
+     (jdo (v (get-inner-points bs))
+       (assert-near (.y start) (.y v) 0.00000001))))
+  ("testGetBasePoints"
+   (multiple-value-bind (bs start) (%bst-vertical)
+     (jdo (v (get-base-points bs))
+       (assert-near (.x start) (.x v) 0.00000001)))
+   (multiple-value-bind (bs start) (%bst-horizontal)
+     (jdo (v (get-base-points bs))
+       (assert-near (.y start) (.y v) 0.00000001))))
+  ("testGetPolylineApprx"
+   (multiple-value-bind (bs start) (%bst-vertical)
+     (jdo (v (get-polyline-apprx bs 50))
+       (assert-near (.x start) (.x v) 0.00000001)))
+   (multiple-value-bind (bs start) (%bst-horizontal)
+     (jdo (v (get-polyline-apprx bs 50))
+       (assert-near (.y start) (.y v) 0.00000001)))))

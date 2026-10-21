@@ -1,0 +1,48 @@
+;;;; partition-test.lisp -- port of org.eclipse.elk.alg.layered.intermediate.PartitionTest.
+
+(in-package #:elk)
+
+(defun %b-partition-coordinates (first-partition second-partition)
+  "The rightmost coordinate of the first partition must be left of the second's leftmost."
+  (let ((rightmost nil) (leftmost nil))
+    (jdo (node first-partition)
+      (let ((v (+ (get-x node) (get-width node))))
+        (when (or (null rightmost) (> v rightmost)) (setf rightmost v))))
+    (jdo (node second-partition)
+      (let ((v (get-x node)))
+        (when (or (null leftmost) (< v leftmost)) (setf leftmost v))))
+    (when (and rightmost leftmost)
+      (assert-true (< rightmost leftmost)))))
+
+(defun %b-partition-order-in-graph (graph)
+  (when (get-property graph layered-options.partitioning-activate)
+    (let ((partition-to-nodes (make-hash-table :test 'eql)))
+      (jdo (node (get-children graph))
+        (when (has-property node layered-options.partitioning-partition)
+          (let ((partition (get-property node layered-options.partitioning-partition)))
+            (jl-add (or (gethash partition partition-to-nodes)
+                        (setf (gethash partition partition-to-nodes) (new-jlist)))
+                    node))))
+      (when (plusp (hash-table-count partition-to-nodes))
+        (let* ((ids (sort (loop for k being the hash-keys of partition-to-nodes collect k) #'<))
+               (first-id (first ids)))
+          (dolist (second-id (rest ids))
+            (%b-partition-coordinates (gethash first-id partition-to-nodes)
+                                      (gethash second-id partition-to-nodes))
+            (setf first-id second-id)))))))
+
+(deflayouttest partition-test
+  (:algorithm "org.eclipse.elk.layered")
+  (:default-configuration)
+  (:graph-resources (list (model-resource-path "tests/layered/partitioning/**/")
+                          (model-resource-path "tickets/layered/656_brokenLayoutPartitions.elkt")))
+  (:test test-partition-order () (node)
+    (let ((graph-queue (new-jlist)))
+      (jl-add graph-queue node)
+      (loop until (is-empty graph-queue)
+            do (let ((graph (jl-poll-first graph-queue)))
+                 (%b-partition-order-in-graph graph)
+                 ;; Look for child nodes that also contain graphs
+                 (jdo (child (get-children graph))
+                   (when (is-hierarchical node)
+                     (jl-add graph-queue child))))))))

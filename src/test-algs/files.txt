@@ -1,0 +1,13 @@
+# test-algs load order
+support
+two-bit-grid-test
+force-import-test
+center-on-root-test
+spore-utils-test
+compaction-test
+padding-test
+issue583-test
+topdown-layout-test
+topdown-packing-test
+port-placement-calculation-test
+alg-framework-tests
