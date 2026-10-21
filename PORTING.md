@@ -10,6 +10,26 @@ ELK's own test suite can be run against it unchanged in substance.  Do not
 All code is in package `ELK` (`(in-package #:elk)`), compiled with
 `*read-default-float-format*` = `double-float`, so `1.5` is a double.
 
+## Scope (decided 2026-10-21)
+
+The goal is a comprehensive layout library in Common Lisp, using ELK as the
+reference design. It is not a line-for-line port of every ELK class or test.
+
+- **In scope:** the layered algorithm and its options, core options and graph
+  handling, and the tests that check real layout behaviour.
+- **Out of scope:** JVM and EMF machinery (ElkReflect reflection, Ecore copier,
+  plain-Java initialization), and tests that only mirror Java internals. Such a
+  test is removed with a note saying why, not left as an error.
+- **Rendering:** not here. SVG output is handed to `~/stencil` (SVG parse and
+  render, via gesso). This repo produces laid-out geometry and SVG markup only.
+- **Metrics:** label sizes come from a fixed test measurer, so results are
+  repeatable and do not depend on AWT fonts.
+- **Other algorithms** (mrtree, force, radial, disco, spore, rectpacking,
+  topdown, stress): deferred until layered passes, and kept only if needed.
+
+Iterate on narrowed model sets; run the full ptolemy corpus only for classes
+that are close to passing.
+
 ## Names are mechanical — so you can call code that nobody has written yet
 
 `java-name->lisp` / `tools/javanames.py` define the rule: camelCase and
