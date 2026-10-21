@@ -1,0 +1,137 @@
+;;;; in-layer-edge-test-graph-creator.lisp -- port of
+;;;; org.eclipse.elk.alg.layered.intermediate.greedyswitch.InLayerEdgeTestGraphCreator.
+;;;; A graph creator (not a test) that extends the greedy-switch TestGraphCreator.
+;;;; Each getXxx method keeps its Java name, builds the graph in THIS and returns it.
+
+(in-package #:elk)
+
+(defjclass in-layer-edge-test-graph-creator (layered-greedyswitch-test-graph-creator) ())
+
+(defjctor in-layer-edge-test-graph-creator ()
+  nil)
+
+(defjmethod get-in-layer-edges-graph-with-crossings-to-between-layer-edge-with-fixed-port-order
+    ((this in-layer-edge-test-graph-creator))
+  (let* ((layers (make-layers this 2))
+         (left-node (add-node-to-layer this (aref layers 0)))
+         (right-nodes (add-nodes-to-layer this 2 (aref layers 1))))
+    (set-port-order-fixed this (aref right-nodes 0))
+    ;; since we expect bottom up ordering of western ports, the order of adding edges is important
+    (east-west-edge-from-to this left-node (aref right-nodes 0))
+    (add-in-layer-edge this (aref right-nodes 0) (aref right-nodes 1) port-side.west)
+    (east-west-edge-from-to this left-node (aref right-nodes 0))
+    (east-west-edge-from-to this left-node (aref right-nodes 0))
+    (get-graph this)))
+
+(defjmethod get-in-layer-edges-with-fixed-port-order-and-normal-edge-crossings
+    ((this in-layer-edge-test-graph-creator))
+  (let* ((layer (make-layers this 2))
+         (left-node (add-node-to-layer this (aref layer 0)))
+         (right-nodes (add-nodes-to-layer this 3 (aref layer 1))))
+    (set-fixed-order-constraint this (aref right-nodes 0))
+    (east-west-edge-from-to this left-node (aref right-nodes 0))
+    (add-in-layer-edge this (aref right-nodes 0) (aref right-nodes 2) port-side.west)
+    (east-west-edge-from-to this left-node (aref right-nodes 1))
+    (get-graph this)))
+
+(defjmethod get-in-layer-edges-crossings-but-no-fixed-order ((this in-layer-edge-test-graph-creator))
+  (let* ((layer (make-layers this 2))
+         (left-nodes (add-nodes-to-layer this 2 (aref layer 0)))
+         (right-nodes (add-nodes-to-layer this 2 (aref layer 1))))
+    (east-west-edge-from-to this (aref left-nodes 0) (aref right-nodes 0))
+    (add-in-layer-edge this (aref right-nodes 0) (aref right-nodes 1) port-side.west)
+    (east-west-edge-from-to this (aref left-nodes 1) (aref right-nodes 1))
+    (get-graph this)))
+
+(defjmethod get-in-layer-edges-crossings-no-fixed-order-no-edge-between-upper-and-lower
+    ((this in-layer-edge-test-graph-creator))
+  (let* ((layer (make-layers this 2))
+         (left-nodes (add-nodes-to-layer this 2 (aref layer 0)))
+         (right-nodes (add-nodes-to-layer this 3 (aref layer 1))))
+    (east-west-edge-from-to this (aref left-nodes 1) (aref right-nodes 1))
+    (add-in-layer-edge this (aref right-nodes 0) (aref right-nodes 2) port-side.west)
+    (add-in-layer-edge this (aref right-nodes 0) (aref right-nodes 2) port-side.west)
+    (east-west-edge-from-to this (aref left-nodes 1) (aref right-nodes 2))
+    (get-graph this)))
+
+(defjmethod get-in-layer-edges-crossings-no-fixed-order-no-edge-between-upper-and-lower-upside-down
+    ((this in-layer-edge-test-graph-creator))
+  (let* ((layer (make-layers this 2))
+         (left-nodes (add-nodes-to-layer this 2 (aref layer 0)))
+         (right-nodes (add-nodes-to-layer this 4 (aref layer 1))))
+    (east-west-edge-from-to this (aref left-nodes 0) (aref right-nodes 1))
+    (add-in-layer-edge this (aref right-nodes 0) (aref right-nodes 1) port-side.west)
+    (add-in-layer-edge this (aref right-nodes 1) (aref right-nodes 3) port-side.west)
+    (add-in-layer-edge this (aref right-nodes 1) (aref right-nodes 3) port-side.west)
+    (east-west-edge-from-to this (aref left-nodes 1) (aref right-nodes 2))
+    (get-graph this)))
+
+(defjmethod get-in-layer-crossings-on-both-sides ((this in-layer-edge-test-graph-creator))
+  (let* ((layers (make-layers this 3))
+         (left-node (add-node-to-layer this (aref layers 0)))
+         (middle-nodes (add-nodes-to-layer this 3 (aref layers 1)))
+         (right-node (add-node-to-layer this (aref layers 2))))
+    (add-in-layer-edge this (aref middle-nodes 0) (aref middle-nodes 2) port-side.east)
+    (add-in-layer-edge this (aref middle-nodes 0) (aref middle-nodes 2) port-side.west)
+    (east-west-edge-from-to this (aref middle-nodes 1) right-node)
+    (east-west-edge-from-to this left-node (aref middle-nodes 1))
+    (get-graph this)))
+
+(defjmethod get-in-layer-edges-fixed-port-order-in-layer-and-in-between-layer-crossing
+    ((this in-layer-edge-test-graph-creator))
+  (let* ((layers (make-layers this 2))
+         (left-node (add-node-to-layer this (aref layers 0)))
+         (right-nodes (add-nodes-to-layer this 3 (aref layers 1))))
+    (set-fixed-order-constraint this (aref right-nodes 1))
+    (east-west-edge-from-to this left-node (aref right-nodes 1))
+    (add-in-layer-edge this (aref right-nodes 0) (aref right-nodes 1) port-side.west)
+    (add-in-layer-edge this (aref right-nodes 1) (aref right-nodes 2) port-side.west)
+    (get-graph this)))
+
+(defjmethod get-in-layer-edges-fixed-port-order-in-layer-crossing ((this in-layer-edge-test-graph-creator))
+  (let ((nodes (add-nodes-to-layer this 3 (make-layer this (get-graph this)))))
+    (set-fixed-order-constraint this (aref nodes 1))
+    (add-in-layer-edge this (aref nodes 0) (aref nodes 1) port-side.west)
+    (add-in-layer-edge this (aref nodes 1) (aref nodes 2) port-side.west)
+    (get-graph this)))
+
+(defjmethod get-fixed-port-order-two-in-layer-edges-cross-each-other ((this in-layer-edge-test-graph-creator))
+  (let ((nodes (add-nodes-to-layer this 3 (make-layer this (get-graph this)))))
+    (set-fixed-order-constraint this (aref nodes 0))
+    (add-in-layer-edge this (aref nodes 0) (aref nodes 2) port-side.west)
+    (add-in-layer-edge this (aref nodes 0) (aref nodes 1) port-side.west)
+    (get-graph this)))
+
+(defjmethod get-in-layer-edges-downward-graph-no-fixed-order ((this in-layer-edge-test-graph-creator))
+  (let* ((layers (make-layers this 2))
+         (left-node (add-node-to-layer this (aref layers 0)))
+         (right-nodes (add-nodes-to-layer this 3 (aref layers 1))))
+    (east-west-edge-from-to this left-node (aref right-nodes 1))
+    (add-in-layer-edge this (aref right-nodes 0) (aref right-nodes 1) port-side.west)
+    (add-in-layer-edge this (aref right-nodes 1) (aref right-nodes 2) port-side.west)
+    (get-graph this)))
+
+(defjmethod get-in-layer-edges-multiple-edges-into-single-port ((this in-layer-edge-test-graph-creator))
+  (let* ((layer-two (make-layer this (get-graph this)))
+         (left-node (add-node-to-layer this layer-two))
+         (layer-one (make-layer this (get-graph this)))
+         (right-nodes (add-nodes-to-layer this 4 layer-one)))
+    (add-in-layer-edge this (aref right-nodes 1) (aref right-nodes 3) port-side.west)
+    (let ((left-port (add-port-on-side this left-node port-side.east))
+          (right-top-port (add-port-on-side this (aref right-nodes 0) port-side.west))
+          (right-middle-port (add-port-on-side this (aref right-nodes 2) port-side.west)))
+      (add-edge-between-ports this left-port right-middle-port)
+      (add-edge-between-ports this right-top-port right-middle-port))
+    (get-graph this)))
+
+(defjmethod get-one-layer-with-in-layer-crossings ((this in-layer-edge-test-graph-creator))
+  (let ((nodes (add-nodes-to-layer this 4 (make-layer this (get-graph this)))))
+    (add-in-layer-edge this (aref nodes 0) (aref nodes 2) port-side.west)
+    (add-in-layer-edge this (aref nodes 1) (aref nodes 3) port-side.west)
+    (get-graph this)))
+
+(defjmethod get-in-layer-one-layer-no-crossings ((this in-layer-edge-test-graph-creator))
+  (let ((nodes (add-nodes-to-layer this 4 (make-layer this (get-graph this)))))
+    (add-in-layer-edge this (aref nodes 0) (aref nodes 3) port-side.west)
+    (add-in-layer-edge this (aref nodes 1) (aref nodes 2) port-side.west)
+    (get-graph this)))
