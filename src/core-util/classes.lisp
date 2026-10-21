@@ -147,7 +147,7 @@
 
 ;;; ------------------------------------------------------------ util.internal / persistence / selection
 
-(defjclass layout-option-proxy (property-value-proxy)
+(defjclass layout-option-proxy (i-property-value-proxy)
   ((value nil)))
 
 (defjclass elk-graph-xmi-helper () ((resource nil)))
