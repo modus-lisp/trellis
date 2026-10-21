@@ -68,4 +68,4 @@
               ((eq side port-side.west)
                (%la-assert-equals-delta (%lansopt-error-message port)
                                         (- (.x (get-size port)))
-                                        (.x (get-position port)) 0d0))))))))
+                                        (.x (get-position port)) 0d0)))))))))

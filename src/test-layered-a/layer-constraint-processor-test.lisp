@@ -62,4 +62,4 @@
   (:after-processor no-empty-layers
     (:processors (layer-constraint-postprocessor)) (graph)
     (jdo (layer (get-layers graph))
-      (assert-true (not (is-empty (get-nodes layer)))))))
+      (assert-true (not (is-empty (get-nodes layer))))))
