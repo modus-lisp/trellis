@@ -208,7 +208,13 @@
 (defjstatic layout-meta-data-service.get-instance (loader)
   loader
   (or *layout-meta-data-service*
-      (setf *layout-meta-data-service* (make-instance 'layout-meta-data-service))))
+      (progn
+        ;; Java registers the ElkReflect entries from the service's static setup;
+        ;; nothing else calls init-elk-reflect, so without this an option whose
+        ;; type is a KVector or padding cannot create its default.
+        (setf *layout-meta-data-service* (make-instance 'layout-meta-data-service))
+        (layout-meta-data-service.init-elk-reflect)
+        *layout-meta-data-service*)))
 
 (defjstatic layout-meta-data-service.unload ()
   (when *layout-meta-data-service*
