@@ -29,6 +29,7 @@ spore
 rectpacking
 topdownpacking
 api
+output
 test-framework
 test-layered-pilot
 test-core
