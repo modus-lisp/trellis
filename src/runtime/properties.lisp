@@ -96,20 +96,23 @@
 (defclass property-value-proxy () ())
 
 (defjmethod set-property ((h map-property-holder) property value)
-  ;; NIL is both Java's null (clear) and Java's Boolean.FALSE.  Clearing a
-  ;; property whose default is NIL is the same answer either way, so remove it.
-  ;; Otherwise NIL must be STORED, or a false over a default of TRUE reads back
-  ;; as the default.  Clearing a non-NIL-default property to null therefore
-  ;; stores NIL rather than restoring the default (a known, accepted difference).
-  (if (and (null value) (null (%resolve-default property)))
-      (when (.property-map h) (remhash (.id property) (.property-map h)))
-      (setf (gethash (.id property) (%pmap h)) (cons property value)))
+  ;; NIL is both Java's null (clear) and Java's Boolean.FALSE.  A property whose
+  ;; default is TRUE is a Boolean, so a NIL there is a stored FALSE and is kept
+  ;; under the marker :JFALSE (GET-PROPERTY turns it back into NIL).  Any other
+  ;; NIL is a null: it clears the entry, so the default comes back, as in Java.
+  ;; Known difference: a null clear of a default-TRUE property stores FALSE.
+  (cond ((and (null value) (eq (%resolve-default property) t))
+         (setf (gethash (.id property) (%pmap h)) (cons property :jfalse)))
+        ((null value)
+         (when (.property-map h) (remhash (.id property) (.property-map h))))
+        (t (setf (gethash (.id property) (%pmap h)) (cons property value))))
   h)
 
 (defjmethod get-property ((h map-property-holder) property)
   (let* ((cell (and (.property-map h) (gethash (.id property) (.property-map h))))
          (value (cdr cell)))
-    (cond ((typep value 'property-value-proxy)
+    (cond ((eq value :jfalse) nil)
+          ((typep value 'property-value-proxy)
            (let ((v (resolve-proxy value property)))
              (if v
                  (progn (setf (gethash (.id property) (%pmap h)) (cons property v)) v)
@@ -140,7 +143,7 @@
   "A fresh map property -> value."
   (let ((m (make-hash-table :test 'eq)))
     (when (.property-map h)
-      (maphash (lambda (id cell) (declare (ignore id)) (setf (gethash (car cell) m) (cdr cell)))
+      (maphash (lambda (id cell) (declare (ignore id)) (setf (gethash (car cell) m) (if (eq (cdr cell) :jfalse) nil (cdr cell))))
                (.property-map h)))
     m))
 
@@ -148,7 +151,7 @@
   "List of (property . value), for iteration."
   (let ((acc '()))
     (when (.property-map h)
-      (maphash (lambda (id cell) (declare (ignore id)) (push (cons (car cell) (cdr cell)) acc))
+      (maphash (lambda (id cell) (declare (ignore id)) (push (cons (car cell) (if (eq (cdr cell) :jfalse) nil (cdr cell))) acc))
                (.property-map h)))
     (nreverse acc)))
 

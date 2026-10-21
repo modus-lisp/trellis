@@ -27,12 +27,24 @@
   (js-contains-or-member (.supported-directions this) direction))
 
 (defun js-contains-or-member (coll x)
-  (if (jset-p coll) (js-contains coll x) (and (position x coll) t)))
+  ;; CONTAINS dispatches on jsets, enum sets and sequences alike.
+  (contains coll x))
 
 ;;; ------------------------------------------------------------ CGroup
 
 (defjstatic common-c-group.of ()
   (new-common-c-group-builder))
+
+(defjmethod add-c-node ((this common-c-group) c-node)
+  ;; CGroup.addCNode: the first node added becomes the group's reference.
+  (when (.c-group c-node)
+    (jthrow 'runtime-exception "CNode belongs to another CGroup."))
+  (unless (jl-contains (.c-nodes this) c-node)
+    (jl-add (.c-nodes this) c-node))
+  (setf (.c-group c-node) this)
+  (unless (.reference this)
+    (setf (.reference this) c-node))
+  nil)
 
 (defun %cg-add-cnode (group c-node)
   "LinkedHashSet.add plus the owner bookkeeping of CGroup.addCNode."
