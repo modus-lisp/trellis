@@ -15,7 +15,7 @@
   (:test ensure-nodes-big-enough-for-labels () (graph)
     (jdo (node (graph-test-utils.all-nodes graph nil))
       ;; Only hierarchical nodes matter.
-      (unless (zerop (length (get-children node)))
+      (unless (is-empty (get-children node))
         (jdo (label (get-labels node))
           (when (or (< (get-x label) 0)
                     (< (get-y label) 0)
