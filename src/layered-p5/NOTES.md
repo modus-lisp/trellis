@@ -1,25 +1,32 @@
 # layered-p5 (org.eclipse.elk.alg.layered.p5edges) -- status NOTES
 
-## Status: PARTIAL (resumed port, not finished)
+## Status: splines PORTED (2026-10-21)
 
-Files present, in load order (files.txt):
-- classes.lisp   -- defjclass for all p5edges classes, incl. splines (fields only)
-- util.lisp      -- ListIterator over a jlist (for NubSpline knot insertion)
-- edges.lisp     -- EdgeRouterFactory, OrthogonalEdgeRouter, PolylineEdgeRouter
-- orthogonal.lisp -- orthogonal/ and orthogonal/direction/ (HyperEdgeSegment*,
-                    HyperEdgeCycleDetector, OrthogonalRoutingGenerator, strategies)
+Load order (files.txt): classes, util, edges, orthogonal, splines-math,
+rectangle, nub-spline, nubs-self-loop, spline-edge-router, spline-segment.
 
-NOT PORTED (only classes.lisp has their fields):
-- splines/SplineEdgeRouter.java (1049 lines)
-- splines/NubSpline.java (1134), splines/NubsSelfLoop.java (316)
-- splines/Rectangle.java (337), splines/SplineSegment.java (304), splines/SplinesMath.java (310)
+Splines (org.eclipse.elk.alg.layered.p5edges.splines), all ported:
+- splines-math.lisp   -- SplinesMath (overloads folded into one dispatching function)
+- rectangle.lisp      -- Rectangle (ctors, union, margins)
+- nub-spline.lisp     -- NubSpline + PolarCP
+- nubs-self-loop.lisp -- NubsSelfLoop (varargs KVector... taken as a jlist)
+- spline-edge-router.lisp -- SplineEdgeRouter + Dependency + configuration
+- spline-segment.lisp -- SplineSegment (two 3-arg ctors dispatch on the first arg)
 
-## Not verified
-The module was NOT compile-checked. tools/check-module.lisp (working tree and
-HEAD) cannot run in this environment:
-- HEAD version expects extensionless names in files.txt, but src/core/files.txt
-  lists "classes.lisp" (the working tree was being edited concurrently by another porter).
-- Loading the earlier modules with EVAL exhausts the SBCL heap even with
-  --dynamic-space-size 8192 (SB-C::COPY-CONSET during constraint propagation,
-  inside core.lisp's loader); core/core.lisp also has an unmatched ')' at line 277.
-A /tmp copy with the name fix still dies on the heap, so this needs a fix in tools/.
+Known deviations, all deliberate:
+- Rectangle.union(Collection) keeps Java's bug: it unions into the first
+  rectangle, so the returned copy is only that rectangle.
+- NubSpline(clamped, dim, list) copies the caller's list before padding it;
+  Java pads the caller's list in place.
+- Pair<SideToProcess, LEdge> is a cons (side . edge); Sets of pairs are
+  jlists with value dedupe.
+
+Cross-module defect found (NOT fixed here, owned by layered-intermediate-a):
+- final-spline.lisp, FINAL-SPLINE-BENDPOINTS-CALCULATOR PROCESS ends with
+  (done progress-monitor) and never begins the monitor.  Java's processor does
+  not touch the monitor at all.  Every spline layout therefore raises
+  ILLEGAL-STATE-EXCEPTION "The task has not begun yet."  Remove that call.
+
+Still NOT PORTED: nothing in the p5edges Java list.  Not verified: the
+spline output geometry against ELK reference models (tests only check that
+no exception is raised).

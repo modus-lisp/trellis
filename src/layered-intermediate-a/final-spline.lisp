@@ -52,7 +52,7 @@
             (edge-chain (get-property e layered-internal-properties.spline-edge-chain)))
         (calculate-bezier-bend-points this edge-chain surviving-edge)
         (set-property e layered-internal-properties.spline-edge-chain nil))))
-  (done progress-monitor))
+  nil)
 
 (defjmethod index-nodes-per-layer ((this final-spline-bendpoints-calculator) graph)
   (jdo (l (get-layers graph))

@@ -2,3 +2,9 @@ classes.lisp
 util.lisp
 edges.lisp
 orthogonal.lisp
+splines-math.lisp
+rectangle.lisp
+nub-spline.lisp
+nubs-self-loop.lisp
+spline-edge-router.lisp
+spline-segment.lisp
