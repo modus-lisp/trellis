@@ -2,6 +2,19 @@
 ;;;; left-to-right drawing direction).
 
 (in-package #:elk)
+;; Call macros used before their definition in this file.
+(define-jcall get-transposed-port-side :instance)
+(define-jcall mirror-x-nodes :instance)
+(define-jcall mirror-x-spacing :instance)
+(define-jcall mirror-x-vector :instance)
+(define-jcall mirror-y-nodes :instance)
+(define-jcall mirror-y-spacing :instance)
+(define-jcall mirror-y-vector :instance)
+(define-jcall rotate-90-clockwise :instance)
+(define-jcall rotate-90-counter-clockwise :instance)
+(define-jcall transpose-nodes :instance)
+(define-jcall transpose-spacing :instance)
+(define-jcall transpose-vector :instance)
 
 ;; Private helpers of this file are called before their defjmethod is compiled.
 (define-jcalls :instance

@@ -1,6 +1,8 @@
 ;;;; hierarchical-constraint.lisp -- HierarchicalPortConstraintProcessor.
 
 (in-package #:elk)
+;; Call macros used before their definition in this file.
+(define-jcall process-eastern-and-western-layer :instance)
 
 ;; Private helpers of this file are called before their defjmethod is compiled.
 (define-jcalls :instance

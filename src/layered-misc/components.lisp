@@ -6,6 +6,10 @@
 ;;;; compaction of placed components via the compaction.components package).
 
 (in-package #:elk)
+;; Call macros used before their definition in this file.
+(define-jcall add-lgraph-element-bounds :instance)
+(define-jcall place-group-components :instance)
+(define-jcall portside-to-direction :instance)
 
 ;;; ------------------------------------------------------------ Set<PortSide> multimaps
 ;;
