@@ -170,7 +170,7 @@
   (let ((dir (get-property graph layered-options.direction))
         (aspect-ratio (get-property graph layered-options.aspect-ratio))
         (correction (get-property graph layered-options.wrapping-correction-factor)))
-    (if (or (eq dir direction.left) (eq dir direction.right) (eq dir direction.undefined))
+    (if (or (eq dir core-direction.left) (eq dir core-direction.right) (eq dir core-direction.undefined))
         (setf (.dar this) (* aspect-ratio correction))
         (setf (.dar this) (/ 1 (* aspect-ratio correction)))))
   (setf (.spacing this) (get-property graph layered-options.spacing-node-node-between-layers))

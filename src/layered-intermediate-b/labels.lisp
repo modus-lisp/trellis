@@ -10,7 +10,7 @@
    (l-graph-adapters.adapt layered-graph t t (lambda (node) (eq (get-type node) node-type.normal))))
   ;; If the graph has external ports, labels of external port dummies are treated differently
   (when (contains (get-property layered-graph layered-internal-properties.graph-properties)
-                  graph-properties.external-ports)
+                  layered-graph-properties.external-ports)
     (let* ((port-label-placement (get-property layered-graph layered-options.port-labels-placement))
            (place-next-to-port (contains port-label-placement port-label-placement.next-to-port-if-possible))
            (treat-as-group (get-property layered-graph layered-options.port-labels-treat-as-group)))
@@ -205,7 +205,7 @@
                                               left-aligned layout-direction)
   (let ((inline (every (lambda (label) (get-property label layered-options.edge-labels-inline)) labels))
         (effective-labels labels))
-    (when (eq layout-direction direction.up)
+    (when (eq layout-direction core-direction.up)
       (setf effective-labels (reverse effective-labels)))
     (jdo (label effective-labels)
       (setf (.x (get-position label)) (.x label-pos))

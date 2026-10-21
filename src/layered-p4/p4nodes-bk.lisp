@@ -11,11 +11,11 @@
       (setf *%p4-hierarchy-additions*
             (add-before (layout-processor-configuration.create)
                         layered-phases.p5-edge-routing
-                        intermediate-processor-strategy.hierarchical-port-position-processor))))
+                        layered-intermediate-processor-strategy.hierarchical-port-position-processor))))
 
 (defun %p4-layout-processor-configuration (graph)
   (if (contains (get-property graph layered-internal-properties.graph-properties)
-                graph-properties.external-ports)
+                layered-graph-properties.external-ports)
       (%p4-hierarchy-additions)
       nil))
 

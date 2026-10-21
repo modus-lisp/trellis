@@ -210,8 +210,14 @@
   (let ((indices (gethash side (.port-side-indices this))))
     (if (null indices)
         (new-jlist)
-        ;; A fresh copy: the order of the ports on one side can change.
-        (jl-sub-list (.ports this) (car indices) (cdr indices)))))
+        ;; Java's ports.subList(from, to): a LIVE view.  Writes through
+        ;; (set / swap) land in the node's port list, and the view is
+        ;; displaced onto the list's storage, so a reallocating push on the
+        ;; node is still seen.
+        (let ((from (car indices)) (to (cdr indices)))
+          (make-array (- to from) :displaced-to (.ports this)
+                                  :displaced-index-offset from
+                                  :fill-pointer (- to from) :adjustable t)))))
 
 (defjmethod get-ports ((this l-node) port-type side)
   (let ((type-predicate (%lg-type-predicate port-type))

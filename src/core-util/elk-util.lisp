@@ -79,11 +79,11 @@ elements FN adds to them are visited as well."
       (return-from elk-util.calc-port-side/2 port-side.undefined))
     (let ((xpos (get-x port)) (ypos (get-y port)))
       (enum-case direction
-        ((direction.left direction.right)
+        ((core-direction.left core-direction.right)
          (cond ((< xpos 0) (return-from elk-util.calc-port-side/2 port-side.west))
                ((> (+ xpos (get-width port)) node-width)
                 (return-from elk-util.calc-port-side/2 port-side.east))))
-        ((direction.up direction.down)
+        ((core-direction.up core-direction.down)
          (cond ((< ypos 0) (return-from elk-util.calc-port-side/2 port-side.north))
                ((> (+ ypos (get-height port)) node-height)
                 (return-from elk-util.calc-port-side/2 port-side.south)))))

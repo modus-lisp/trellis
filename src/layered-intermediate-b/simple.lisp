@@ -153,10 +153,9 @@
 (defjconst interactive-external-port-positioner.arbitrary-spacing 10)
 
 (defjmethod process ((this interactive-external-port-positioner) layered-graph progress-monitor)
-  (declare (ignore progress-monitor))
   ;; if the graph does not contain any external ports, nothing we can do about it
   (unless (contains (get-property layered-graph layered-internal-properties.graph-properties)
-                    graph-properties.external-ports)
+                    layered-graph-properties.external-ports)
     (return-from process/2 nil))
   (let ((spacing interactive-external-port-positioner.arbitrary-spacing))
     ;; find the minimum and maximum x coordinates of the graph
@@ -328,7 +327,6 @@
         (set-long-edge-source-and-target this dummy dummy-input dummy-output westward-port)))))
 
 (defjmethod set-long-edge-source-and-target ((this inverted-port-processor) long-edge-dummy dummy-input-port dummy-output-port odd-port)
-  (declare (ignore odd-port))
   (let* ((source-port (get-source (jl-get (get-incoming-edges dummy-input-port) 0)))
          (source-node (get-node source-port))
          (target-port (get-target (jl-get (get-outgoing-edges dummy-output-port) 0)))

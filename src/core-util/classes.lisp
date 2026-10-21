@@ -205,7 +205,7 @@
    (normalization-function nil)))
 
 (defjclass aggregated-match-decider (i-decider)
-  ((aggregator nil)
+  ((aggregator #'%cu-agg-max)
    (lower-boundary 0.0)
    (include-lower-boundary nil)))
 
@@ -218,11 +218,11 @@
 (defjclass comment-attacher ()
   ((include-hierarchy t)
    (explicit-attachments-disable-heuristics t)
-   (explicit-attachment-provider nil)
+   (explicit-attachment-provider (lambda (a) (declare (ignore a)) nil))
    (bounds-provider nil)
    (filters (new-jlist))
    (matchers (new-jlist))
-   (decider nil)))
+   (decider (new-aggregated-match-decider/0))))
 
 (defjclass elk-graph-bounds-provider (i-bounds-provider) ())
 

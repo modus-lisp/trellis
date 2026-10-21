@@ -91,6 +91,8 @@ the default constructor NEW-NAME/0 unless the class has a DEFJCTOR."
   "A constructor.  The body sees THIS.  Call (super-ctor PARENT this args...)
 first to run a superclass constructor; if the body does not, the parent's
 no-arg constructor runs (Java's implicit super())."
+  (multiple-value-bind (decls rest) (split-leading-declares body)
+  (setf body rest)
   (let* ((n (length params))
          (init (init-name class n))
          (maker (intern (format nil "NEW-~A/~D" (symbol-name class) n) :elk))
@@ -98,13 +100,14 @@ no-arg constructor runs (Java's implicit super())."
     `(progn
        (defun ,init (this ,@params)
          (declare (ignorable this))
+         ,@decls
          ,@(unless explicit `((%implicit-super-init this ',class)))
          ,@body
          this)
        (defun ,maker ,params
          (,init (make-instance ',class) ,@params))
        (define-jcall ,(intern (format nil "NEW-~A" (symbol-name class)) :elk) :static)
-       ',maker)))
+       ',maker))))
 
 (defmacro super-ctor (parent this &rest args)
   `(,(init-name parent (length args)) ,this ,@args))
@@ -113,13 +116,25 @@ no-arg constructor runs (Java's implicit super())."
   "this(...) -- another constructor of the same class."
   `(,(init-name class (length args)) ,this ,@args))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+(defun split-leading-declares (body)
+  "(values declares rest): the DECLARE forms at the front of BODY, which must stay
+outside the BLOCK the Java-style macros add."
+  (let ((decls '()))
+    (loop while (and (consp (first body)) (eq (car (first body)) 'declare))
+          do (push (pop body) decls))
+    (values (nreverse decls) body))))
+
 (defmacro defjmethod (name (this-spec &rest params) &body body)
-  "An instance method: (defjmethod foo ((this klass) a b) ...) defines FOO/2."
+  "An instance method: (defjmethod foo ((this klass) a b) ...) defines FOO/2.
+The body is wrapped in (block foo ...), so RETURN-FROM foo works as in a Java return."
   (let ((g (arity-symbol name (length params))))
-    `(progn
-       (define-jcall ,name :instance)
-       (defmethod ,g (,this-spec ,@params)
-         ,@body))))
+    (multiple-value-bind (decls rest) (split-leading-declares body)
+      `(progn
+         (define-jcall ,name :instance)
+         (defmethod ,g (,this-spec ,@params)
+           ,@decls
+           (block ,name ,@rest))))))
 
 (defmacro defjgeneric (name arity)
   "Declare an abstract/interface method."
@@ -129,9 +144,10 @@ no-arg constructor runs (Java's implicit super())."
 
 (defmacro defjstatic (name params &body body)
   "A static method: (defjstatic l-graph-util.offset-graph (g x y) ...)."
-  `(progn
-     (define-jcall ,name :static)
-     (defun ,(arity-symbol name (length params)) ,params ,@body)))
+  (multiple-value-bind (decls rest) (split-leading-declares body)
+    `(progn
+       (define-jcall ,name :static)
+       (defun ,(arity-symbol name (length params)) ,params ,@decls (block ,name ,@rest)))))
 
 (defmacro defjconst (name value)
   "A static final field."
@@ -366,6 +382,34 @@ With FIELDS, each constant is (CONST field-values...)."
 (declaim (inline jlist-p))
 (defun jlist-p (x) (and (vectorp x) (not (stringp x))))
 
+(defmacro jdo ((var coll &optional result) &body body)
+  "Java for-each over a list/vector/jset/enum-set/hash-table (values)/collection object.
+The body is compiled ONCE, as a local function; each collection branch calls it.
+(Copying it into every branch made nested loops grow 6x per level and exhaust
+the heap while compiling.)  RETURN inside the body leaves the loop, as in Java's break."
+  (let ((c (gensym)) (i (gensym)) (k (gensym)) (v (gensym)) (f (gensym)))
+    `(let ((,c ,coll))
+       (block nil
+         (flet ((,f (,var) ,@body))
+           (declare (dynamic-extent #',f))
+           (typecase ,c
+             (null nil)
+             (vector (let ((,i 0))
+                       (loop while (< ,i (length ,c))
+                             do (,f (aref ,c ,i))
+                                (incf ,i))))
+             (list (dolist (,var ,c) (,f ,var)))
+             (jset (loop for ,k being the hash-keys of (jset-table ,c) do (,f ,k)))
+             (enum-set (dolist (,var (copy-list (enum-set-items ,c))) (,f ,var)))
+             (hash-table (loop for ,k being the hash-keys of ,c using (hash-value ,v) do (,f ,v)))
+             (t (map nil #',f (jiterable-items ,c)))))
+         ,result))))
+
+(defmacro jdo-map ((k v map) &body body)
+  "for (Map.Entry e : map.entrySet())"
+  `(loop for (,k . ,v) in (loop for kk being the hash-keys of ,map using (hash-value vv) collect (cons kk vv))
+         do (progn ,@body)))
+
 (defun jlist (&rest items)
   "new ArrayList<>(Arrays.asList(items...))"
   (let ((v (make-array (max 4 (length items)) :adjustable t :fill-pointer 0)))
@@ -394,31 +438,6 @@ With FIELDS, each constant is (CONST field-values...)."
 (defgeneric jiterable-items (coll)
   (:documentation "A CL sequence of COLL's elements, for collections defined by ported classes."))
 
-(defmacro jdo ((var coll &optional result) &body body)
-  "Java for-each over a list/vector/jset/enum-set/hash-table (values)/collection object."
-  (let ((c (gensym)) (i (gensym)) (k (gensym)) (v (gensym)))
-    `(let ((,c ,coll))
-       (block nil
-         (typecase ,c
-           (null nil)
-           (vector (let ((,i 0))
-                     (loop while (< ,i (length ,c))
-                           do (let ((,var (aref ,c ,i))) ,@body)
-                              (incf ,i))))
-           (list (dolist (,var ,c) ,@body))
-           (jset (loop for ,var in (loop for ,k being the hash-keys of (jset-table ,c) collect ,k)
-                       do (progn ,@body)))
-           (enum-set (dolist (,var (copy-list (enum-set-items ,c))) ,@body))
-           (hash-table (loop for ,var in (loop for ,k being the hash-keys of ,c using (hash-value ,v) collect ,v)
-                             do (progn ,@body)))
-           (t (let ((,i (jiterable-items ,c))) (map nil (lambda (,var) ,@body) ,i))))
-         ,result))))
-
-(defmacro jdo-map ((k v map) &body body)
-  "for (Map.Entry e : map.entrySet())"
-  `(loop for (,k . ,v) in (loop for kk being the hash-keys of ,map using (hash-value vv) collect (cons kk vv))
-         do (progn ,@body)))
-
 (defun jsize (c)
   (etypecase c
     (null 0)
@@ -445,9 +464,14 @@ With FIELDS, each constant is (CONST field-values...)."
   (setf (aref l i) x)
   nil)
 (defun jl-get (l i)
-  (unless (< -1 i (length l))
-    (jthrow 'index-out-of-bounds-exception "Index ~D out of bounds for length ~D" i (length l)))
-  (aref l i))
+  "list.get(i).  Vectors take the fast path; any other list (an EMF EList, say)
+dispatches to the generic J-GET."
+  (if (vectorp l)
+      (progn
+        (unless (< -1 i (length l))
+          (jthrow 'index-out-of-bounds-exception "Index ~D out of bounds for length ~D" i (length l)))
+        (aref l i))
+      (j-get l i)))
 (defun jl-set (l i x) (prog1 (jl-get l i) (setf (aref l i) x)))
 (defun jl-remove-at (l i)
   (let ((x (jl-get l i)))

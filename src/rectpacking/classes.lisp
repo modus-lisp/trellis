@@ -91,7 +91,7 @@
 ;;; p3whitespaceelimination
 (defjclass equal-whitespace-eliminator (i-layout-phase) ())
 (defjclass rectangle-expansion () ())
-(defjclass to-aspectratio-node-expander () ())
+(defjclass to-aspectratio-node-expander (equal-whitespace-eliminator) ())
 
 ;;; intermediate
 (defjinterface i-node-size-comparator)
@@ -102,5 +102,6 @@
 (defjclass min-size-post-processor (i-layout-processor) ())
 
 ;;; top level
-(defjclass rect-packing-layout-provider (abstract-layout-provider) ())
+(defjclass rect-packing-layout-provider (abstract-layout-provider)
+  ((algorithm-assembler (algorithm-assembler.create 'rect-packing-layout-phases))))
 (defjclass interactive-rect-packing-graph-visitor () ())

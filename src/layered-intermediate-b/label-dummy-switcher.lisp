@@ -4,11 +4,6 @@
 
 (defproperty label-dummy-switcher.include-label "edgelabelcenterednessanalysis.includelabel" nil)
 
-(defun %lib-first (coll)
-  "coll.iterator().next()"
-  (let ((v (to-jvector coll)))
-    (if (zerop (length v)) (jthrow 'no-such-element-exception) (elt v 0))))
-
 (defjmethod process ((this label-dummy-switcher) layered-graph monitor)
   (begin monitor "Label dummy switching" 1)
   (let* ((default-placement-strategy
@@ -134,8 +129,8 @@
   (let ((is-head-label (eq (.placement-strategy info) center-edge-label-placement-strategy.head-layer))
         (reversed (is-part-of-reversed-edge this info)))
     (if (or (and is-head-label (not reversed)) (and (not is-head-label) reversed))
-        (set-property (.label-dummy info) layered-options.alignment alignment.right)
-        (set-property (.label-dummy info) layered-options.alignment alignment.left))))
+        (set-property (.label-dummy info) layered-options.alignment core-alignment.right)
+        (set-property (.label-dummy info) layered-options.alignment core-alignment.left))))
 
 (defjmethod is-part-of-reversed-edge ((this label-dummy-switcher) info)
   (let ((incoming (%lib-first (get-incoming-edges (.label-dummy info))))

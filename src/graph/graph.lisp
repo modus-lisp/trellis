@@ -329,3 +329,10 @@ Answered as a fresh jlist (a snapshot) instead of a TreeIterator."
 (defjmethod create-elk-bend-point ((f elk-graph-factory)) (new-elk-bend-point/0))
 (defjmethod create-elk-property-to-value-map-entry ((f elk-graph-factory))
   (new-elk-property-to-value-map-entry/0))
+
+;;; ------------------------------------------------------------ ElkPersistentEntry
+
+(defjmethod get-key ((e elk-persistent-entry)) (.key e))
+(defjmethod set-key ((e elk-persistent-entry) k) (setf (.key e) k) nil)
+(defjmethod get-value ((e elk-persistent-entry)) (.value e))
+(defjmethod set-value ((e elk-persistent-entry) v) (setf (.value e) v) nil)

@@ -97,7 +97,9 @@
   (when order
     (let ((result (make-array (length order))))
       (loop for i from 0 below (length order)
-            do (setf (aref result i) (coerce (aref order i) 'simple-vector)))
+            ;; Java Arrays.copyOf: a fresh row. CL COERCE to SIMPLE-VECTOR returns the
+            ;; SAME object for a simple-vector, which aliased the copy to the live order.
+            do (setf (aref result i) (copy-seq (aref order i))))
       result)))
 
 (defjctor sweep-copy (in)
@@ -409,19 +411,20 @@
     improved))
 
 (defun %gpd-distribute-ports-on-node (this node side use-hier)
-  ;; A private copy of the (possibly reversed) side view; swaps are written
-  ;; through to the node's port list in %GPD-SWITCH-PORTS.
-  (let ((ports (if (or (eq side port-side.south) (eq side port-side.west))
-                   (%p3-reversed (get-port-side-view node side))
-                   (jlist-from (get-port-side-view node side))))
-        (improved nil) (continue-switching t))
-    (loop while continue-switching do
-      (setf continue-switching nil)
-      (loop for i from 0 below (1- (length ports)) do
-        (when (%gpd-switching-decreases-crossings this (aref ports i) (aref ports (1+ i)) node use-hier)
-          (setf improved t)
-          (%gpd-switch-ports this ports node side i (1+ i))
-          (setf continue-switching t))))
+  ;; PORTS is node.getPortSideView(side), reversed for SOUTH/WEST: a live view,
+  ;; so the swaps in %GPD-SWITCH-PORTS write through to the node's port list.
+  (let* ((rev (or (eq side port-side.south) (eq side port-side.west)))
+         (view (get-port-side-view node side))
+         (n (length view))
+         (improved nil) (continue-switching t))
+    (flet ((ref (i) (aref view (if rev (- n 1 i) i))))
+      (loop while continue-switching do
+        (setf continue-switching nil)
+        (loop for i from 0 below (1- n) do
+          (when (%gpd-switching-decreases-crossings this (ref i) (ref (1+ i)) node use-hier)
+            (setf improved t)
+            (%gpd-switch-ports this view rev i (1+ i))
+            (setf continue-switching t)))))
     improved))
 
 (defun %gpd-switching-decreases-crossings (this upper-port lower-port node use-hier)
@@ -439,24 +442,13 @@
             (incf lower-upper (get-lower-upper-crossings h))))))
     (> upper-lower lower-upper)))
 
-(defun %p3-swap-in (list a b)
-  (let ((i (position a list)) (j (position b list)))
-    (when (and i j) (rotatef (aref list i) (aref list j)))))
-
-(defun %gpd-switch-ports (this ports node side top bottom)
-  (let ((tp (aref ports top)) (bp (aref ports bottom)))
+(defun %gpd-switch-ports (this view rev top bottom)
+  ;; Java: ports.get/set on the (possibly reversed) live side view.
+  (let* ((n (length view))
+         (ti (if rev (- n 1 top) top)) (bi (if rev (- n 1 bottom) bottom))
+         (tp (aref view ti)) (bp (aref view bi)))
     (switch-ports (.crossings-counter this) tp bp)
-    (setf (aref ports bottom) tp (aref ports top) bp)
-    ;; In Java PORTS is a view of the node's port list; write the swap through.
-    (%p3-swap-in (get-ports node) tp bp)
-    ;; If the side view is a cached copy rather than a live view, update it too.
-    (let ((view (get-port-side-view node side)))
-      (when (and (typep view 'vector) (not (eq view (get-ports node))))
-        (let ((i (position tp view)) (j (position bp view)))
-          (when (and i j
-                     (let ((pi (position tp (get-ports node))) (pj (position bp (get-ports node))))
-                       (and pi pj (not (eq (< i j) (< pi pj))))))
-            (rotatef (aref view i) (aref view j))))))))
+    (setf (aref view bi) tp (aref view ti) bp)))
 
 (defun %gpd-initialize (this node-order current-index forward)
   (let ((cc (.crossings-counter this)))
@@ -486,7 +478,7 @@
             (t 0)))))
 
 (defjctor barycenter-heuristic (constraint-resolver random port-distributor graph)
-  (declare (ignore graph))
+  graph                                 ; the Java constructor ignores its LGraph argument
   (setf (.constraint-resolver this) constraint-resolver
         (.random this) random
         (.port-distributor this) port-distributor

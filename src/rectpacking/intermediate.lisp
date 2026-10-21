@@ -77,24 +77,24 @@
   (let* ((rectangles (get-children/0 graph))
          (fixed-nodes (new-jlist)))
     (jdo (elk-node rectangles)
-      (when (has-property/2 elk-node rect-packing-options.desired-position)
+      (when (has-property elk-node rect-packing-options.desired-position)
         (jl-add fixed-nodes elk-node)))
     (jdo (elk-node fixed-nodes)
       (j-remove/1 rectangles elk-node))
     (%rp-java-sort fixed-nodes
                    (lambda (a b)
-                     (let ((position-a (get-property/2 a rect-packing-options.desired-position))
-                           (position-b (get-property/2 b rect-packing-options.desired-position)))
+                     (let ((position-a (get-property a rect-packing-options.desired-position))
+                           (position-b (get-property b rect-packing-options.desired-position)))
                        (if (= position-a position-b)
                            -1
                            (integer.compare position-a position-b)))))
     (jdo (elk-node fixed-nodes)
-      (let ((position (get-property/2 elk-node rect-packing-options.desired-position)))
+      (let ((position (get-property elk-node rect-packing-options.desired-position)))
         (setf position (min position (size/0 rectangles)))
         (add/2 rectangles position elk-node)))
     (let ((index 0))
       (jdo (elk-node rectangles)
-        (set-property/3 elk-node rect-packing-options.current-position index)
+        (set-property elk-node rect-packing-options.current-position index)
         (incf index))))
   (done/0 progress-monitor)
   nil)
@@ -113,8 +113,8 @@
              (min-size2 (node-label-and-size-calculator.process/4 graph-adapter node-adapter nil t)))
         (setf (.x min-size) (math.max (.x min-size) (.x min-size2)))
         (setf (.y min-size) (math.max (.y min-size) (.y min-size2)))))
-    (set-property/3 graph rectpacking-internal-properties.min-width (.x min-size))
-    (set-property/3 graph rectpacking-internal-properties.min-height (.y min-size)))
+    (set-property graph rectpacking-internal-properties.min-width (.x min-size))
+    (set-property graph rectpacking-internal-properties.min-height (.y min-size)))
   (done/0 progress-monitor)
   nil)
 
@@ -123,9 +123,9 @@
 (defjmethod process ((this min-size-post-processor) graph progress-monitor)
   (begin/2 progress-monitor "Min Size Postprocessing" 1)
   ;; Remove padding to get the space the algorithm can use.
-  (set-property/3 graph rectpacking-internal-properties.target-width
-                  (math.max (get-property/2 graph rectpacking-internal-properties.target-width)
-                            (get-property/2 graph rectpacking-internal-properties.min-width)))
+  (set-property graph rectpacking-internal-properties.target-width
+                  (math.max (get-property graph rectpacking-internal-properties.target-width)
+                            (get-property graph rectpacking-internal-properties.min-width)))
   (done/0 progress-monitor)
   nil)
 

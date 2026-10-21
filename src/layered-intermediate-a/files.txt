@@ -2,3 +2,11 @@ classes
 multimap-comments
 reversers
 end-labels
+hierarchical
+hierarchical-constraint
+hierarchical-router
+misc
+high-degree
+final-spline
+graph-transformer
+intermediate-strategy

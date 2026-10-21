@@ -279,6 +279,26 @@
 
 ;;; ------------------------------------------------------------ EndLabelSorter
 
+(defjconst end-label-sorter.label-group-comparator
+  (lambda (group1 group2)
+    ;; If they are not connected to the same source port, use the difference as a basis for the
+    ;; comparison
+    (let ((source-port-diff (integer.compare (.id (get-source (.edge group1)))
+                                             (.id (get-source (.edge group2))))))
+      (if (/= source-port-diff 0)
+          source-port-diff
+          ;; They are connected to the same source port. Sort by target node, if that makes a
+          ;; difference.
+          (let ((target-node-diff (integer.compare (.id (get-node (get-target (.edge group1))))
+                                                   (.id (get-node (get-target (.edge group2)))))))
+            (if (/= target-node-diff 0)
+                target-node-diff
+                ;; Same source port and same target node. Compare target ports, but backwards.
+                ;; Since western ports are ordered from bottom to top, not sorting backwards
+                ;; would yield the opposite of our desires.
+                (integer.compare (.id (get-target (.edge group2)))
+                                 (.id (get-target (.edge group1))))))))))
+
 (defjmethod process ((this end-label-sorter) layered-graph monitor)
   (begin monitor "Sort end labels" 1)
   (jdo (layer (get-layers layered-graph))
@@ -359,22 +379,4 @@
   (jl-add-all (.labels this) (.labels this))
   (setf (.edge this) edge))
 
-(defjconst end-label-sorter.label-group-comparator
-  (lambda (group1 group2)
-    ;; If they are not connected to the same source port, use the difference as a basis for the
-    ;; comparison
-    (let ((source-port-diff (integer.compare (.id (get-source (.edge group1)))
-                                             (.id (get-source (.edge group2))))))
-      (if (/= source-port-diff 0)
-          source-port-diff
-          ;; They are connected to the same source port. Sort by target node, if that makes a
-          ;; difference.
-          (let ((target-node-diff (integer.compare (.id (get-node (get-target (.edge group1))))
-                                                   (.id (get-node (get-target (.edge group2)))))))
-            (if (/= target-node-diff 0)
-                target-node-diff
-                ;; Same source port and same target node. Compare target ports, but backwards.
-                ;; Since western ports are ordered from bottom to top, not sorting backwards
-                ;; would yield the opposite of our desires.
-                (integer.compare (.id (get-target (.edge group2)))
-                                 (.id (get-target (.edge group1))))))))))
+

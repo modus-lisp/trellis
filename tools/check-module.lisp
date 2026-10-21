@@ -8,6 +8,7 @@
 ;;;; COMPILE-FILE so its warnings are reported.
 
 (require :asdf)
+(require :sb-posix)
 (setf *read-default-float-format* 'double-float)
 (defvar *root* (merge-pathnames "../" (make-pathname :name nil :type nil :defaults *load-truename*)))
 
@@ -18,12 +19,16 @@
                   unless (or (string= x "") (char= (char x 0) #\#)) collect x))))
 
 (defun module-files (m)
-  (mapcar (lambda (f) (merge-pathnames (format nil "src/~A/~A.lisp" m f) *root*))
-          (lines (merge-pathnames (format nil "src/~A/files.txt" m) *root*))))
+  ;; files.txt lists names without extension; tolerate "x.lisp" too
+  (mapcar (lambda (f)
+            (let ((base (if (and (> (length f) 5) (string= ".lisp" f :start2 (- (length f) 5)))
+                            (subseq f 0 (- (length f) 5)) f)))
+              (merge-pathnames (format nil "src/~A/~A.lisp" m base) *root*)))
+          (mapcar (lambda (l) (pathname-name l)) (lines (merge-pathnames (format nil "src/~A/files.txt" m) *root*)))))
 
 (defun quiet-load (file)
-  "Load FILE form by form; return the number of forms that failed."
-  (let ((failed 0) (*package* *package*))
+  "Load FILE form by form (interpreted, to keep the heap small); return the number of forms that failed."
+  (let ((failed 0) (*package* *package*) (sb-ext:*evaluator-mode* :interpret))
     (with-open-file (s file)
       (loop for form = (handler-case (read s nil s)
                          (error (e) (format t "  READ ERROR in ~A: ~A~%" (file-namestring file) e) s))
@@ -43,8 +48,13 @@
        (before (subseq modules 0 (or (position target modules :test #'string=)
                                      (error "No module ~A in src/MODULES" target)))))
   (format t ";; loading ~D earlier modules~%" (length before))
+  (sb-ext:gc :full t)
   (dolist (m before)
-    (let ((failed (reduce #'+ (mapcar #'quiet-load (module-files m)))))
+    (let ((failed (reduce #'+ (mapcar (lambda (f)
+                                        (when (sb-posix:getenv "CHECK_VERBOSE")
+                                          (format t "  ~A~%" (file-namestring f)) (finish-output))
+                                        (prog1 (quiet-load f) (sb-ext:gc :full t)))
+                                      (module-files m)))))
       (when (plusp failed) (format t ";; ~A: ~D forms failed to load~%" m failed))))
   (format t ";; compiling ~A~%" target)
   (let ((undefined '()) (other 0))

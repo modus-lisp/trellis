@@ -130,7 +130,6 @@
 (defjmethod create-xmi-helper ((this elk-graph-resource))
   (new-elk-graph-xmi-helper this))
 
-(defjctor elk-graph-resource-factory ())
 
 (defjmethod create-resource ((this elk-graph-resource-factory) uri)
   (new-elk-graph-resource uri))
@@ -159,3 +158,16 @@ parse its value back.  Answers whether the element is kept."
                                              (and property (get-id property)))))
         (not (and option-data (not (can-parse-value/0 option-data)))))
       t))
+
+;;; ElkGraphXMIHelper.createFromString.  EMF is not in the port, so the EDataType
+;;; is passed as a keyword: :IPROPERTY or :PROPERTY-VALUE.  The Java super call
+;;; for any other data type has no counterpart here and signals.
+(defjmethod create-from-string ((this elk-graph-xmi-helper) e-data-type value)
+  (cond ((eq e-data-type :iproperty)
+         ;; getOptionData(id), or a fresh Property(id) when the id is unknown
+         (or (get-option-data (layout-meta-data-service.get-instance) value)
+             (make-property value)))
+        ((eq e-data-type :property-value)
+         (new-layout-option-proxy value))
+        (t (jthrow 'illegal-argument-exception
+                   "ElkGraphXMIHelper: no EMF data type ~A" e-data-type))))

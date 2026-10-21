@@ -28,7 +28,7 @@
          (order-fixed (is-order-fixed (get-property l-node layered-options.port-constraints)))
          (hierarchy-mode (and nested-graph
                               (contains (get-property nested-graph layered-internal-properties.graph-properties)
-                                        graph-properties.external-ports))))
+                                        layered-graph-properties.external-ports))))
     (when (or order-fixed hierarchy-mode)
       ;; No need to hide any ports
       (return-from hide-ports/1 nil))

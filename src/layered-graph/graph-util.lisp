@@ -95,9 +95,9 @@
       (let* ((alignment (get-property node layered-options.alignment))
              (ratio
                (enum-case alignment
-                 (alignment.left 0.0)
-                 (alignment.right 1.0)
-                 (alignment.center 0.5)
+                 (core-alignment.left 0.0)
+                 (core-alignment.right 1.0)
+                 (core-alignment.center 0.5)
                  (t
                   ;; determine the number of input and output ports for the node
                   (let ((inports 0) (outports 0))
@@ -161,7 +161,7 @@
             (add props layered-graph-properties.hyperedges))
           (let ((port-side (get-side port)))
             (enum-case direction
-              ((direction.up direction.down)
+              ((core-direction.up core-direction.down)
                (when (or (eq port-side port-side.east) (eq port-side port-side.west))
                  (add props layered-graph-properties.north-south-ports)))
               (t
@@ -205,10 +205,10 @@
           (let ((graph-properties (get-property layered-graph layered-internal-properties.graph-properties))
                 (port-side (get-side port)))
             (enum-case direction
-              ((direction.left direction.right)
+              ((core-direction.left core-direction.right)
                (when (or (eq port-side port-side.north) (eq port-side port-side.south))
                  (add graph-properties layered-graph-properties.north-south-ports)))
-              ((direction.up direction.down)
+              ((core-direction.up core-direction.down)
                (when (or (eq port-side port-side.east) (eq port-side port-side.west))
                  (add graph-properties layered-graph-properties.north-south-ports)))))))
     port))
@@ -228,10 +228,10 @@
               (width (.x (get-size port)))
               (height (.y (get-size port))))
           (enum-case direction
-            ((direction.left direction.right)
+            ((core-direction.left core-direction.right)
              (cond ((< xpos 0) (return port-side.west))
                    ((> (+ xpos width) node-width) (return port-side.east))))
-            ((direction.up direction.down)
+            ((core-direction.up core-direction.down)
              (cond ((< ypos 0) (return port-side.north))
                    ((> (+ ypos height) node-height) (return port-side.south)))))
           ;; check general criterion
@@ -546,12 +546,12 @@
 
 (defjstatic l-graph-util.get-direction (graph)
   (let ((direction (get-property graph layered-options.direction)))
-    (if (eq direction direction.undefined)
+    (if (eq direction core-direction.undefined)
         (let ((aspect-ratio (get-property graph layered-options.aspect-ratio)))
           (if (>= aspect-ratio 1)
               ;; Default due to default value of the ASPECT_RATIO option for the algorithm
-              direction.right
-              direction.down))
+              core-direction.right
+              core-direction.down))
         direction)))
 
 (defjstatic l-graph-util.get-minimal-model-order (graph)

@@ -90,3 +90,8 @@
 (defjinterface i-property-value-proxy (property-value-proxy))
 (defjinterface advanced-property-value)
 (defjinterface experimental-property-value)
+
+;;; ElkPersistentEntry: a key/value string pair for persisted graphs.  It is an
+;;; EObject, but it is not contained by any feature of the model.
+(defjclass elk-persistent-entry (e-object)
+  ((key nil) (value nil)))

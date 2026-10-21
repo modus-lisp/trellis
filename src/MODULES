@@ -30,6 +30,7 @@ rectpacking
 topdownpacking
 api
 test-framework
+test-layered-pilot
 test-core
 test-common
 test-layered-a

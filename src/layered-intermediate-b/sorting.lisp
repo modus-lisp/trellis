@@ -13,7 +13,7 @@
       ;; The layer.id is necessary to check whether nodes really connect to the previous layer.
       ;; Feedback long edge dummies do might have a long-edge dummy in the same layer.
       (setf (.id layer) layer-index)
-      (let* ((previous-layer-index (if (= layer-index 0) 0 (1- layer-index)))
+      (let* ((previous-layer-index (if (= layer-index 0) 0 (- layer-index 1)))
              (previous-layer (jl-get (get-layers graph) previous-layer-index))
              ;; Sort nodes before port sorting to have sorted nodes for in-layer feedback edge dummies.
              (comparator (new-model-order-node-comparator
@@ -31,23 +31,23 @@
             ;; Therefore all ports that connect to the same node should have the same
             ;; (their minimal) model order.
             ;; Get minimal model order for target node
-            (jl-sort (get-ports node)
-                     (let ((port-comparator
-                             (new-model-order-port-comparator
-                              graph previous-layer
-                              (get-property graph layered-options.consider-model-order-strategy)
-                              (sort-by-input-model-processor.long-edge-target-node-preprocessing node)
-                              (get-property graph layered-options.consider-model-order-port-model-order))))
-                       (lambda (a b) (compare port-comparator a b))))))))
-      ;; Sort nodes after port sorting to also sort dummy feedback nodes from the current layer correctly.
-      (let ((comparator (new-model-order-node-comparator
-                         graph (jl-get (get-layers graph) (if (= layer-index 0) 0 (1- layer-index)))
-                         (get-property graph layered-options.consider-model-order-strategy)
-                         (get-property graph layered-options.consider-model-order-long-edge-strategy)
-                         (get-property graph layered-options.consider-model-order-group-model-order-cm-group-order-strategy)
-                         nil)))
-        (sort-by-input-model-processor.insertion-sort (get-nodes layer) comparator))
-      (incf layer-index)))
+            (let ((port-comparator
+                    (new-model-order-port-comparator
+                     graph previous-layer
+                     (get-property graph layered-options.consider-model-order-strategy)
+                     (sort-by-input-model-processor.long-edge-target-node-preprocessing node)
+                     (get-property graph layered-options.consider-model-order-port-model-order))))
+              (jl-sort (get-ports node) (lambda (a b) (compare port-comparator a b))))))
+        ;; Sort nodes after port sorting to also sort dummy feedback nodes from the current layer correctly.
+        (setf comparator
+              (new-model-order-node-comparator
+               graph previous-layer
+               (get-property graph layered-options.consider-model-order-strategy)
+               (get-property graph layered-options.consider-model-order-long-edge-strategy)
+               (get-property graph layered-options.consider-model-order-group-model-order-cm-group-order-strategy)
+               nil))
+        (sort-by-input-model-processor.insertion-sort (get-nodes layer) comparator)
+        (incf layer-index))))
   (done progress-monitor))
 
 (defjstatic sort-by-input-model-processor.long-edge-target-node-preprocessing (node)

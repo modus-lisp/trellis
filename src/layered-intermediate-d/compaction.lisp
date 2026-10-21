@@ -109,15 +109,15 @@
         (graph-compaction-strategy.left
          (compact odc))
         (graph-compaction-strategy.right
-         (compact (change-direction odc direction.right)))
+         (compact (change-direction odc core-direction.right)))
         (graph-compaction-strategy.left-right-constraint-locking
          ;; lock CNodes if they are not constrained
-         (compact (set-lock-function (change-direction (compact odc) direction.right)
+         (compact (set-lock-function (change-direction (compact odc) core-direction.right)
                                      #'%lock-c-group-out-degree-real)))
         (graph-compaction-strategy.left-right-connection-locking
          ;; compacting left, locking all CNodes that have fewer connections to the right,
          ;; then compacting right to shorten unnecessary long edges
-         (compact (set-lock-function (change-direction (compact odc) direction.right)
+         (compact (set-lock-function (change-direction (compact odc) core-direction.right)
                                      (lambda (node dir)
                                        (j-get (jm-get (get-lock-map transformer) node) dir)))))
         (graph-compaction-strategy.edge-length
@@ -201,10 +201,10 @@
       (jdo (n (get-nodes l))
         (when (and (not has-edges) (not (is-empty (get-connected-edges n))))
           (setf has-edges t))))
-    (let ((supported-directions (enum-set.of direction.undefined direction.left direction.right)))
+    (let ((supported-directions (enum-set.of core-direction.undefined core-direction.left core-direction.right)))
       (unless has-edges
-        (add supported-directions direction.up)
-        (add supported-directions direction.down))
+        (add supported-directions core-direction.up)
+        (add supported-directions core-direction.down))
       ;; initializing members
       (setf (.c-graph this) (new-common-c-graph supported-directions))
       (clrhash (.nodes-map this))
@@ -243,8 +243,8 @@
             ;; locking the node for directions that fewer edges are connected in
             ;; (only used if LEFT_RIGHT_CONNECTION_LOCKING is used)
             (let ((difference (- (size (get-incoming-edges node)) (size (get-outgoing-edges node)))))
-              (cond ((< difference 0) (j-set node-lock t direction.left))
-                    ((> difference 0) (j-set node-lock t direction.right))))
+              (cond ((< difference 0) (j-set node-lock t core-direction.left))
+                    ((> difference 0) (j-set node-lock t core-direction.right))))
             ;; excluding external port dummies
             (when (eq (get-type node) node-type.external-port)
               (j-set node-lock nil nil nil nil)))
@@ -414,11 +414,11 @@
         (js-add out (get-target e)))
       (let ((difference (- (size inc) (size out))))
         (cond ((< difference 0)
-               (j-set vs-lock t direction.left)
-               (j-set vs-lock nil direction.right))
+               (j-set vs-lock t core-direction.left)
+               (j-set vs-lock nil core-direction.right))
               ((> difference 0)
-               (j-set vs-lock nil direction.left)
-               (j-set vs-lock t direction.right))))
+               (j-set vs-lock nil core-direction.left)
+               (j-set vs-lock t core-direction.right))))
       (jdo (other (.joined vertical-segment))
         (jm-put (.vertical-segments-map this) other c-node))
       (jm-put (.vertical-segments-map this) vertical-segment c-node))))

@@ -6,7 +6,7 @@
 ;;; ---------------------------------------------------------------- AbstractLayoutProvider
 
 (defjmethod initialize ((this abstract-layout-provider) parameter)
-  (declare (ignore parameter))
+  parameter
   ;; do nothing - override in subclasses
   nil)
 
@@ -181,7 +181,7 @@
                                      (math.max (get-width child-node)
                                                (+ (.x size) (.left padding) (.right padding)))
                                      (math.max (get-height child-node)
-                                               (+ (.y size) (.top padding) (.bottom padding))))))))))))
+                                               (+ (.y size) (.top padding) (.bottom padding)))))))))))
     (let* ((padding (get-property layout-node core-options.padding))
            (child-area-available-width (- (get-width layout-node) (+ (.left padding) (.right padding))))
            (child-area-available-height (- (get-height layout-node) (+ (.top padding) (.bottom padding)))))
@@ -410,21 +410,21 @@
     (or (gethash element map)
         (setf (gethash element map) (new-map-property-holder)))))
 
-(defjmethod get-properties ((this layout-configurator) element)
+(defjmethod j-get-properties ((this layout-configurator) element)
   (values (gethash element (if (symbolp element) (.class-option-map this) (.element-option-map this)))))
 
 (defun %lc-clear-properties (element)
   "element.getProperties().clear()"
   (if (typep element 'map-property-holder)
       (when (.property-map element) (clrhash (.property-map element)))
-      (clear (get-properties element))))
+      (clear (j-get-properties element))))
 
 (defjmethod visit ((this layout-configurator) element)
   (when (.clear-layout this)
     (%lc-clear-properties element))
   (let ((combined (%lc-find-class-options this element)))
     ;; implicitly overwrite options specified for a class with options specified for the specific element
-    (copy-properties combined (get-properties this element))
+    (copy-properties combined (j-get-properties this element))
     (apply-properties this element combined)))
 
 (defjmethod apply-properties ((this layout-configurator) element properties)

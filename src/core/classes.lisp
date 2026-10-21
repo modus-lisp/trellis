@@ -161,4 +161,4 @@
 (defjclass test-controller ()
   ((layout-algorithm-id nil)
    (current-layout-provider nil)
-   (listeners (new-jlist))))      ; LinkedHashSet: insertion order, no duplicates
+   (listeners (new-jset))))       ; LinkedHashSet: insertion order, no duplicates

@@ -192,7 +192,6 @@
   (jl-clear dummy-nodes))
 
 (defjmethod apply-for-dummy-node-run-with-simple-loops ((this label-side-selector) dummy-nodes label-dummy-count default-side)
-  (declare (ignore label-dummy-count))
   (let ((label-dummy-run (new-jlist))
         (prev-long-edge-source nil)
         (prev-long-edge-target nil))
