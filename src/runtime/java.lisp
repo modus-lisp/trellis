@@ -674,6 +674,10 @@ CMP is a function or symbol, or a Comparator object whose compare/2 is called."
           (setf (aref h i) last) (%jpq-down q i) (%jpq-up q i)))
       t)))
 (defmethod jiterable-items ((q jpq)) (copy-seq (jpq-heap q)))
+;; The built-in sequences, for callers that take an Iterable of any collection.
+(defmethod jiterable-items ((v vector)) (coerce v 'list))
+(defmethod jiterable-items ((v list)) v)
+(defmethod jiterable-items ((v null)) nil)
 
 ;;; Comparator helpers
 

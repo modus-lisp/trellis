@@ -197,11 +197,11 @@
           ;; find the index of the dummy edge we will move the label to
           (let* ((placement (get-property curr-label layered-options.edge-labels-placement))
                  (target-dummy-edge-index
-                   (cond ((eq placement edge-labels-placement.head)
+                   (cond ((eq placement edge-label-placement.head)
                           (1- (length edge-segments)))
-                         ((eq placement edge-labels-placement.center)
+                         ((eq placement edge-label-placement.center)
                           (get-shallowest-edge-segment this edge-segments))
-                         ((eq placement edge-labels-placement.tail)
+                         ((eq placement edge-label-placement.tail)
                           0)
                          ;; we have no idea what to do with the label, so ignore it
                          (t -1))))

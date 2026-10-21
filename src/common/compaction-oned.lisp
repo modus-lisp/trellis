@@ -58,14 +58,16 @@
 
 ;;; CGroupBuilder
 
-(defjmethod nodes ((this common-c-group-builder) &rest nodes)
-  (declare (ignore nodes))
-  (error "use NODES-LIST"))
-
 (defjmethod nodes-list ((this common-c-group-builder) nodes)
   (jdo (n nodes)
     (%cg-add-cnode (.group this) n))
   this)
+
+(defjmethod nodes ((this common-c-group-builder) nodes)
+  ;; Java's nodes(CNode...): NODES is a collection of CNodes, or one CNode.  (A
+  ;; &rest parameter would count as an extra arity in defjmethod's name, so the
+  ;; collection is passed as one argument.)
+  (nodes-list this (if (and (vectorp nodes) (not (stringp nodes))) nodes (list nodes))))
 
 (defjmethod reference ((this common-c-group-builder) reference-node)
   (setf (.reference (.group this)) reference-node)

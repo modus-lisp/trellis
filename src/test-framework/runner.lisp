@@ -183,7 +183,8 @@
 (defun %run-body (function args)
   "Run FUNCTION on ARGS.  Returns (values status message): :pass, :fail for a
 JUnit assertion, :error for anything else."
-  (handler-case (progn (apply function args) (values :pass nil))
+  ;; Java float semantics for the test body too: NaN comparisons are false, not traps.
+  (handler-case (progn (with-java-floats (apply function args)) (values :pass nil))
     (assertion-failure (c) (values :fail (assertion-failure-message c)))
     (error (c) (values :error (princ-to-string c)))))
 

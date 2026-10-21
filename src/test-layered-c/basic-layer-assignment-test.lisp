@@ -45,25 +45,14 @@
     (:processors (coffman-graham-layerer interactive-layerer longest-path-layerer
                   min-width-layerer network-simplex-layerer stretch-width-layerer))
     (graph)
-    (assert-true (is-empty (get-layerless-nodes graph))))
+    (test-no-layerless-nodes (new-basic-layer-assignment-test) graph))
   (:after-processor test-no-empty-layers
     (:processors (coffman-graham-layerer interactive-layerer longest-path-layerer
                   min-width-layerer network-simplex-layerer stretch-width-layerer))
     (graph)
-    (jdo (layer graph)
-      (assert-false (is-empty (get-nodes layer)))))
+    (test-no-empty-layers (new-basic-layer-assignment-test) graph))
   (:after-processor test-edges-point-towards-next-layers
     (:processors (coffman-graham-layerer interactive-layerer longest-path-layerer
                   min-width-layerer network-simplex-layerer stretch-width-layerer))
     (graph)
-    ;; Assign increasing IDs to the layers
-    (let ((next-layer-id 0))
-      (jdo (layer graph)
-        (setf (.id layer) next-layer-id)
-        (incf next-layer-id)))
-    (jdo (layer graph)
-      (jdo (node layer)
-        (let ((node-layer-id (.id (get-layer node))))
-          (jdo (edge (get-outgoing-edges node))
-            (assert-true (< node-layer-id (.id (get-layer (get-node (get-target edge)))))))))))
-  )
+    (test-edges-point-towards-next-layers (new-basic-layer-assignment-test) graph)))
