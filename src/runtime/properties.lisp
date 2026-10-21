@@ -96,7 +96,12 @@
 (defclass property-value-proxy () ())
 
 (defjmethod set-property ((h map-property-holder) property value)
-  (if (null value)
+  ;; NIL is both Java's null (clear) and Java's Boolean.FALSE.  Clearing a
+  ;; property whose default is NIL is the same answer either way, so remove it.
+  ;; Otherwise NIL must be STORED, or a false over a default of TRUE reads back
+  ;; as the default.  Clearing a non-NIL-default property to null therefore
+  ;; stores NIL rather than restoring the default (a known, accepted difference).
+  (if (and (null value) (null (%resolve-default property)))
       (when (.property-map h) (remhash (.id property) (.property-map h)))
       (setf (gethash (.id property) (%pmap h)) (cons property value)))
   h)
