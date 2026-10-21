@@ -24,5 +24,6 @@
          :description "Eclipse Layout Kernel (ELK), ported to Common Lisp"
          :license "EPL-2.0"
          :serial t
+         :depends-on ("json-simple")
          :around-compile call-with-java-reader
          :components ,(trellis-module-components (directory-namestring *load-truename*))))
