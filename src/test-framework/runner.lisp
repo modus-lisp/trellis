@@ -291,6 +291,7 @@ run the blackbox tests and report the whitebox tests."
 every class for :ALL (also NIL).  Prints one line per test result and a summary,
 and returns a TEST-RUN.  Each experiment (algorithm x configuration x graph) is
 reported under its own heading."
+  (install-label-metrics)
   (let ((classes (if (member class-name '(:all nil))
                      *layout-test-classes*
                      (let ((c (find-layout-test-class class-name)))

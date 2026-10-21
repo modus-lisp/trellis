@@ -6,3 +6,4 @@ algorithm-config
 registry
 runner
 plain-java-initialization
+label-metrics
