@@ -582,7 +582,7 @@ CMP is a function or symbol, or a Comparator object whose compare/2 is called."
 (defmethod contains/1 ((l list) x) (and (member x l :test #'jequals) t))
 (defmethod contains/1 ((s jset) x) (js-contains s x))
 (defmethod contains/1 ((s enum-set) x) (and (member x (enum-set-items s)) t))
-(defmethod contains-all/1 ((c t) other) (block nil (jdo (x other) (unless (contains/1 c x) (return nil))) t))
+(defmethod contains-all/1 ((c t) other) (block all (jdo (x other) (unless (contains/1 c x) (return-from all nil))) t))
 (defmethod index-of/1 ((l vector) x) (jl-index-of l x))
 (defmethod last-index-of/1 ((l vector) x) (jl-last-index-of l x))
 (defmethod j-remove/1 ((l vector) x) (jl-remove l x))

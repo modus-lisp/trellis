@@ -100,7 +100,7 @@
 (defmethod sub-list/2 ((el e-list) a b) (jl-sub-list (.items el) a b))
 (defmethod for-each/1 ((el e-list) fn) (map nil fn (copy-seq (.items el))))
 (defmethod contains-all/1 ((el e-list) other)
-  (block nil (jdo (x other) (unless (%el-contains el x) (return nil))) t))
+  (block all (jdo (x other) (unless (%el-contains el x) (return-from all nil))) t))
 
 (defmethod add/1 ((el e-list) x)
   (if (%el-contains el x)

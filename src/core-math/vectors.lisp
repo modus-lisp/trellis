@@ -314,7 +314,7 @@ DELIMS: trailing empty strings are removed; an empty input gives (\"\")."
 (defjmethod sub-list ((c k-vector-chain) a b) (jl-sub-list (.items c) a b))
 (defjmethod for-each ((c k-vector-chain) fn) (jdo (x (.items c)) (funcall fn x)))
 (defjmethod contains-all ((c k-vector-chain) other)
-  (block nil (jdo (x other) (unless (jl-contains (.items c) x) (return nil))) t))
+  (block all (jdo (x other) (unless (jl-contains (.items c) x) (return-from all nil))) t))
 
 (defjmethod to-array ((this k-vector-chain))
   (coerce (.items this) 'simple-vector))
