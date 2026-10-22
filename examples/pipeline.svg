@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="372.00" height="79.00" viewBox="-4 -4 372.00 79.00">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#556"/></marker></defs>
+<rect x="0" y="0" width="364.00" height="71.00" fill="#fbfbfd"/>
+<rect x="12.00" y="17.00" width="70.00" height="36.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="12.00" y="28.20" font-size="11" font-family="sans-serif">read</text>
+<rect x="102.00" y="23.00" width="70.00" height="36.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="102.00" y="34.20" font-size="11" font-family="sans-serif">parse</text>
+<rect x="192.00" y="17.00" width="70.00" height="36.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="192.00" y="28.20" font-size="11" font-family="sans-serif">check</text>
+<rect x="282.00" y="17.00" width="70.00" height="36.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="282.00" y="28.20" font-size="11" font-family="sans-serif">emit</text>
+<path d="M82.00 41.00 L102.00 41.00" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M172.00 41.00 L192.00 41.00" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M262.00 35.00 L282.00 35.00" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M82.00 29.00 L92.00 29.00 L92.00 12.00 L182.00 12.00 L182.00 29.00 L192.00 29.00" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+</svg>

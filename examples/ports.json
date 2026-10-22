@@ -1,0 +1,10 @@
+{"id":"root","layoutOptions":{"elk.direction":"RIGHT"},
+ "children":[
+  {"id":"src","width":60,"height":40,
+   "ports":[{"id":"out1","width":8,"height":8,"layoutOptions":{"elk.port.side":"EAST"}},
+            {"id":"out2","width":8,"height":8,"layoutOptions":{"elk.port.side":"EAST"}}]},
+  {"id":"dst","width":60,"height":40,
+   "ports":[{"id":"in1","width":8,"height":8,"layoutOptions":{"elk.port.side":"WEST"}}]}],
+ "edges":[
+  {"id":"p1","sources":["out1"],"targets":["in1"]},
+  {"id":"p2","sources":["out2"],"targets":["in1"]}]}

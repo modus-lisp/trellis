@@ -1,0 +1,9 @@
+{"id":"root","layoutOptions":{"elk.direction":"DOWN"},
+ "children":[
+  {"id":"api","labels":[{"text":"api"}],
+   "children":[
+     {"id":"router","width":70,"height":36},
+     {"id":"handler","width":70,"height":36}],
+   "edges":[{"id":"in","sources":["router"],"targets":["handler"]}]},
+  {"id":"store","width":90,"height":36,"labels":[{"text":"store"}]}],
+ "edges":[{"id":"call","sources":["api"],"targets":["store"]}]}

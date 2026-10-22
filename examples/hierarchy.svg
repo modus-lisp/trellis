@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="216.00" height="148.00" viewBox="-4 -4 216.00 148.00">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#556"/></marker></defs>
+<rect x="0" y="0" width="208.00" height="140.00" fill="#fbfbfd"/>
+<rect x="12.00" y="12.00" width="184.00" height="60.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="12.00" y="12.00" font-size="11" font-family="sans-serif">api</text>
+<rect x="24.00" y="24.00" width="70.00" height="36.00" rx="3" fill="#f6f6ee" stroke="#334" stroke-width="1"/>
+<rect x="114.00" y="24.00" width="70.00" height="36.00" rx="3" fill="#f6f6ee" stroke="#334" stroke-width="1"/>
+<rect x="59.00" y="92.00" width="90.00" height="36.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="59.00" y="92.00" font-size="11" font-family="sans-serif">store</text>
+<path d="M104.00 72.00 L104.00 92.00" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<path d="M94.00 42.00 L114.00 42.00" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+</svg>

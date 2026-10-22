@@ -1,0 +1,11 @@
+{"id":"root","layoutOptions":{"elk.direction":"RIGHT"},
+ "children":[
+  {"id":"read","width":70,"height":36,"labels":[{"text":"read","width":30,"height":14}]},
+  {"id":"parse","width":70,"height":36,"labels":[{"text":"parse","width":34,"height":14}]},
+  {"id":"check","width":70,"height":36,"labels":[{"text":"check","width":34,"height":14}]},
+  {"id":"emit","width":70,"height":36,"labels":[{"text":"emit","width":30,"height":14}]}],
+ "edges":[
+  {"id":"e1","sources":["read"],"targets":["parse"]},
+  {"id":"e2","sources":["parse"],"targets":["check"]},
+  {"id":"e3","sources":["check"],"targets":["emit"]},
+  {"id":"e4","sources":["read"],"targets":["check"]}]}
