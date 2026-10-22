@@ -20,7 +20,7 @@ ELK's JSON graph format, so elkjs input works unchanged.
 
 | | |
 |---|---|
-| ![A pipeline laid out right, with a long edge routed over a node](examples/pipeline.png) | ![A compound node laid out downward, with an edge leaving it](examples/hierarchy.png) |
+| ![A pipeline laid out right, with a long edge routed around a node](examples/pipeline.png) | ![A compound node laid out downward, with an edge leaving it](examples/hierarchy.png) |
 | ![Ports on the east and west sides, with their edges](examples/ports.png) | The inputs are in [`examples/`](examples/): `pipeline.json`, `hierarchy.json`, `ports.json`, each with its `.svg` output. |
 
 ## API
