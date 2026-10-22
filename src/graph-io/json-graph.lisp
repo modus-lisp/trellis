@@ -322,7 +322,12 @@
   (let ((option-data (get-option-data-by-suffix (layout-meta-data-service.get-instance) id)))
     (when (and option-data value)
       (let ((parsed (parse-value option-data value)))
-        (when parsed (set-property holder option-data parsed))))))
+        (cond (parsed (set-property holder option-data parsed))
+              ;; Java tests parsed != null, and Boolean.FALSE is not null: an
+              ;; explicit "false" on a Boolean option is stored, not skipped.
+              ((and (eq (%lod-kind option-data) :boolean)
+                    (string-equal (string-trim " " value) "false"))
+               (set-property holder option-data nil)))))))
 
 (defun %gio-transform-labels (this json-obj element)
   (let ((labels (%gio-opt-array json-obj "labels")))

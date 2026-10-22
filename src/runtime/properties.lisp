@@ -95,13 +95,24 @@
 (defmethod resolve-proxy ((v t) p) (declare (ignore p)) v)
 (defclass property-value-proxy () ())
 
+;;; Whether PROPERTY holds a Java Boolean.  NIL is both Java's null and FALSE, so
+;;; this decides which one an explicit NIL means.  A property with its own
+;;; option type answers directly; otherwise *BOOLEAN-OPTION-ID-P* (installed by
+;;; the core module, which knows every layout option's type) is asked by id.
+(defvar *boolean-option-id-p* nil
+  "NIL, or a function of an option id that returns true for Boolean options.")
+
+(defun %boolean-property-p (property)
+  (or (eq (.option-type property) :boolean)
+      (and *boolean-option-id-p* (funcall *boolean-option-id-p* (.id property)))))
+
 (defjmethod set-property ((h map-property-holder) property value)
-  ;; NIL is both Java's null (clear) and Java's Boolean.FALSE.  A property whose
-  ;; default is TRUE is a Boolean, so a NIL there is a stored FALSE and is kept
-  ;; under the marker :JFALSE (GET-PROPERTY turns it back into NIL).  Any other
-  ;; NIL is a null: it clears the entry, so the default comes back, as in Java.
-  ;; Known difference: a null clear of a default-TRUE property stores FALSE.
-  (cond ((and (null value) (eq (%resolve-default property) t))
+  ;; NIL is both Java's null (clear) and Java's Boolean.FALSE.  On a Boolean
+  ;; option it is a stored FALSE, kept under the marker :JFALSE (GET-PROPERTY
+  ;; turns it back into NIL).  Anywhere else it is a null: it clears the entry,
+  ;; so the default comes back, as in Java.
+  ;; Known difference: a null clear of a Boolean option stores FALSE.
+  (cond ((and (null value) (%boolean-property-p property))
          (setf (gethash (.id property) (%pmap h)) (cons property :jfalse)))
         ((null value)
          (when (.property-map h) (remhash (.id property) (.property-map h))))
@@ -114,9 +125,13 @@
     (cond ((eq value :jfalse) nil)
           ((typep value 'property-value-proxy)
            (let ((v (resolve-proxy value property)))
-             (if v
-                 (progn (setf (gethash (.id property) (%pmap h)) (cons property v)) v)
-                 (%holder-default h property))))
+             (cond (v (setf (gethash (.id property) (%pmap h)) (cons property v)) v)
+                   ;; A proxy that resolves to NIL on a Boolean option is an
+                   ;; explicit false, e.g. "separateConnectedComponents": "false".
+                   ((%boolean-property-p property)
+                    (setf (gethash (.id property) (%pmap h)) (cons property :jfalse))
+                    nil)
+                   (t (%holder-default h property)))))
           (value value)
           ;; A stored FALSE is a stored value too.
           (cell value)

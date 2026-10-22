@@ -419,3 +419,17 @@
     (when (has-property element (car rule))
       (funcall (cdr rule) element)))
   nil)
+
+;;; Tell the property holders which option ids are Booleans (see
+;;; *boolean-option-id-p* in runtime/properties.lisp), from the registered
+;;; option metadata.  Cached per id; ids with no option data are not Booleans.
+(let ((cache (make-hash-table :test 'equal)))
+  (setf *boolean-option-id-p*
+        (lambda (id)
+          (multiple-value-bind (hit found) (gethash id cache)
+            (if found
+                hit
+                (setf (gethash id cache)
+                      (let ((data (ignore-errors
+                                   (get-option-data/1 (layout-meta-data-service.get-instance) id))))
+                        (and data (eq (%lod-kind data) :boolean)))))))))
