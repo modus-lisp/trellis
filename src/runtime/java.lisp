@@ -443,6 +443,19 @@ the heap while compiling.)  RETURN inside the body leaves the loop, as in Java's
 
 (defun new-jmap (&optional (test 'eql)) (make-hash-table :test test))
 
+;;; Set.equals (AbstractSet): same size, and every element of one is in the
+;;; other.  EnumSet.noneOf(A).equals(EnumSet.noneOf(B)) is true in Java too.
+(defmethod equals/1 ((a enum-set) b)
+  (and (enum-set-p b)
+       (= (length (enum-set-items a)) (length (enum-set-items b)))
+       (every (lambda (x) (member x (enum-set-items b) :test #'eq)) (enum-set-items a))))
+
+(defmethod equals/1 ((a jset) b)
+  (and (jset-p b)
+       (= (hash-table-count (jset-table a)) (hash-table-count (jset-table b)))
+       (loop for x being the hash-keys of (jset-table a)
+             always (nth-value 1 (gethash x (jset-table b))))))
+
 ;;; Iteration over anything collection-shaped.
 
 (defgeneric jiterable-items (coll)

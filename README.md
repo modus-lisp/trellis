@@ -40,10 +40,10 @@ Each level of a graph is laid out by its `elk.algorithm` option. The
 
 The layered engine is a port of ELK's, with ELK's class structure and option
 names. ELK's own layered test suite is ported under `src/test-*`. Most of it
-passes; six layout-quality checks still fail (port and label placement, a
-self-loop label, a node sized too small for its content, and partition
-order). Spline edge routing runs, but its geometry has not been checked
-against ELK's reference output.
+passes. One check fails: `PartitionPostProcessorTest.testPartitionOrder` on
+`withEdgeLabels.elkt`, which ELK's own build fails too (a layer holding only
+a label dummy). Spline edge routing runs, but its geometry has not been
+checked against ELK's reference output.
 
 Not ported: the other ELK algorithms (box, fixed, force, mrtree, radial,
 rectpacking, spore, stress, topdown).
@@ -52,6 +52,9 @@ rectpacking, spore, stress, topdown).
 
 The test models are ELK's and are not in this repository. Point `MODELS_REPO`
 at a checkout of them. `src/test-framework` has the runner, `run-elk-tests`.
+Load gesso and scribe first: ELK's test framework gives text labels a size
+from font metrics, and without them every label is 0×0, which fails several
+tests.
 
 ## Source layout
 
