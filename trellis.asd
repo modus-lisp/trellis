@@ -9,7 +9,12 @@
              (when s
                (loop for l = (read-line s nil) while l
                      for x = (string-trim " " l)
-                     unless (or (string= x "") (char= (char x 0) #\#)) collect x)))))
+                     unless (or (string= x "") (char= (char x 0) #\#))
+                       collect (let ((n (length x)))
+                                 ;; "foo.lisp" and "foo" name the same file
+                                 (if (and (> n 5) (string= ".lisp" x :start2 (- n 5)))
+                                     (subseq x 0 (- n 5))
+                                     x)))))))
     (loop for m in (lines (merge-pathnames "src/MODULES" base))
           for files = (lines (merge-pathnames (format nil "src/~A/files.txt" m) base))
           when files

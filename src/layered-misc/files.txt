@@ -1,5 +1,5 @@
 classes
 compaction
 compaction-components
-components.lisp
-compound.lisp
+components
+compound
