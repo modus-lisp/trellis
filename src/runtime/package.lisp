@@ -7,4 +7,4 @@
 
 (defpackage #:trellis
   (:use #:cl)
-  (:export #:layout-json #:layout #:graph->svg #:read-elkt #:read-graph-file))
+  (:export #:layout-json #:layout #:layout-score #:graph->svg #:read-elkt #:read-graph-file))

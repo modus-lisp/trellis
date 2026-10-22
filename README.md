@@ -27,7 +27,8 @@ ELK's JSON graph format, so elkjs input works unchanged.
 
 | function | |
 |---|---|
-| `layout-json text` | ELK JSON text in, laid-out ELK JSON text out |
+| `layout-json text &key candidates` | ELK JSON text in, laid-out ELK JSON text out |
+| `layout-score json` | `(crossings edge-length area)` of a laid-out ELK JSON object |
 | `layout graph` | lays an ELK graph out in place and returns it |
 | `graph->svg graph &optional stream` | SVG markup of a laid-out graph |
 | `read-graph-file path` | `.json`, `.elkt`, or `.elkg` (read through its sibling `.json`) |
@@ -35,6 +36,22 @@ ELK's JSON graph format, so elkjs input works unchanged.
 
 Each level of a graph is laid out by its `elk.algorithm` option. The
 `layered` algorithm is the one ported so far.
+
+### Candidates
+
+ELK's crossing minimisation starts from a random order, so the random seed
+can decide between a clean layout and a tangled one. With the root option
+`"trellis.candidates": N` (or `:candidates N`), `layout-json` lays the graph
+out with seeds S, S+1, … S+N−1, where S is `elk.randomSeed` (default 1). It
+keeps the result with the fewest edge crossings, then the shortest total edge
+length, then the smallest area. This option is trellis's own, not ELK's.
+Without it, a layout is exactly ELK's.
+
+```json
+"layoutOptions": { "elk.algorithm": "layered",
+                   "elk.layered.thoroughness": "30",
+                   "trellis.candidates": "8" }
+```
 
 ## Status
 
