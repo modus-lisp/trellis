@@ -1,9 +1,147 @@
-{"id":"root","layoutOptions":{"elk.direction":"DOWN"},
- "children":[
-  {"id":"api","labels":[{"text":"api"}],
-   "children":[
-     {"id":"router","width":70,"height":36},
-     {"id":"handler","width":70,"height":36}],
-   "edges":[{"id":"in","sources":["router"],"targets":["handler"]}]},
-  {"id":"store","width":90,"height":36,"labels":[{"text":"store"}]}],
- "edges":[{"id":"call","sources":["api"],"targets":["store"]}]}
+{
+ "id": "root",
+ "layoutOptions": {
+  "elk.direction": "DOWN",
+  "elk.hierarchyHandling": "INCLUDE_CHILDREN"
+ },
+ "children": [
+  {
+   "id": "api",
+   "labels": [
+    {
+     "text": "api"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "elk.nodeSize.constraints": "[NODE_LABELS]",
+    "elk.padding": "[top=28,left=12,bottom=12,right=12]"
+   },
+   "children": [
+    {
+     "id": "router",
+     "width": 80,
+     "height": 36,
+     "labels": [
+      {
+       "text": "router"
+      }
+     ],
+     "layoutOptions": {
+      "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+     }
+    },
+    {
+     "id": "auth",
+     "width": 80,
+     "height": 36,
+     "labels": [
+      {
+       "text": "auth"
+      }
+     ],
+     "layoutOptions": {
+      "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+     }
+    },
+    {
+     "id": "handler",
+     "width": 80,
+     "height": 36,
+     "labels": [
+      {
+       "text": "handler"
+      }
+     ],
+     "layoutOptions": {
+      "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+     }
+    }
+   ],
+   "edges": [
+    {
+     "id": "r1",
+     "sources": [
+      "router"
+     ],
+     "targets": [
+      "auth"
+     ]
+    },
+    {
+     "id": "r2",
+     "sources": [
+      "auth"
+     ],
+     "targets": [
+      "handler"
+     ]
+    },
+    {
+     "id": "r3",
+     "sources": [
+      "router"
+     ],
+     "targets": [
+      "handler"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "cache",
+   "width": 90,
+   "height": 36,
+   "labels": [
+    {
+     "text": "cache"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   }
+  },
+  {
+   "id": "store",
+   "width": 90,
+   "height": 36,
+   "labels": [
+    {
+     "text": "store"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "c1",
+   "sources": [
+    "handler"
+   ],
+   "targets": [
+    "cache"
+   ]
+  },
+  {
+   "id": "c2",
+   "sources": [
+    "handler"
+   ],
+   "targets": [
+    "store"
+   ]
+  },
+  {
+   "id": "c3",
+   "sources": [
+    "cache"
+   ],
+   "targets": [
+    "store"
+   ]
+  }
+ ]
+}

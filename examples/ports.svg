@@ -1,11 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="188.00" height="80.00" viewBox="-4 -4 188.00 80.00">
-<defs><marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#556"/></marker></defs>
-<rect x="0" y="0" width="180.00" height="72.00" fill="#fbfbfd"/>
-<rect x="12.00" y="20.00" width="60.00" height="40.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
-<rect x="72.00" y="28.00" width="8.00" height="8.00" fill="#334"/>
-<rect x="72.00" y="44.00" width="8.00" height="8.00" fill="#334"/>
-<rect x="108.00" y="12.00" width="60.00" height="40.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
-<rect x="100.00" y="28.00" width="8.00" height="8.00" fill="#334"/>
-<path d="M80.00 32.00 L100.00 32.00" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
-<path d="M80.00 48.00 L90.00 48.00 L90.00 32.00 L100.00 32.00" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="344.00" height="103.00" viewBox="-4 -4 344.00 103.00">
+<rect x="0" y="0" width="336.00" height="95.00" fill="#fbfbfd"/>
+<rect x="12.00" y="17.33" width="80.00" height="60.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="34.49" y="51.02" font-size="11" font-family="sans-serif">source</text>
+<rect x="92.00" y="60.33" width="8.00" height="8.00" fill="#334"/>
+<rect x="92.00" y="43.33" width="8.00" height="8.00" fill="#334"/>
+<rect x="92.00" y="26.33" width="8.00" height="8.00" fill="#334"/>
+<rect x="128.00" y="23.00" width="80.00" height="60.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="151.41" y="56.69" font-size="11" font-family="sans-serif">merge</text>
+<rect x="120.00" y="60.33" width="8.00" height="8.00" fill="#334"/>
+<rect x="120.00" y="37.67" width="8.00" height="8.00" fill="#334"/>
+<rect x="208.00" y="49.00" width="8.00" height="8.00" fill="#334"/>
+<rect x="244.00" y="23.00" width="80.00" height="60.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="273.22" y="56.69" font-size="11" font-family="sans-serif">sink</text>
+<rect x="236.00" y="49.00" width="8.00" height="8.00" fill="#334"/>
+<path d="M100.00 64.33 L120.00 64.33" fill="none" stroke="#556" stroke-width="1.2"/>
+<polygon points="120.00,64.33 112.00,60.83 112.00,67.83" fill="#556"/>
+<path d="M100.00 47.33 L110.00 47.33 L110.00 41.67 L120.00 41.67" fill="none" stroke="#556" stroke-width="1.2"/>
+<polygon points="120.00,41.67 112.00,38.17 112.00,45.17" fill="#556"/>
+<path d="M100.00 30.33 L110.00 30.33 L110.00 12.00 L226.00 12.00 L226.00 53.00 L236.00 53.00" fill="none" stroke="#556" stroke-width="1.2"/>
+<polygon points="236.00,53.00 228.00,49.50 228.00,56.50" fill="#556"/>
+<path d="M216.00 53.00 L236.00 53.00" fill="none" stroke="#556" stroke-width="1.2"/>
+<polygon points="236.00,53.00 228.00,49.50 228.00,56.50" fill="#556"/>
 </svg>

@@ -18,10 +18,26 @@ ELK's JSON graph format, so elkjs input works unchanged.
 
 ## Examples
 
+![The modus-lisp dependency graph: 57 repositories in four tiers, laid out by trellis](examples/modus-lisp.png)
+
+The dependency graph on the [modus-lisp](https://modus-lisp.github.io) front
+page: four tiers held apart by partitioning, a chain drawn as one row, and
+orthogonal edges, with the best of eight seeds kept
+([candidates](#candidates)). trellis lays it out; the site's `bin/graph`
+draws it. The input is [`examples/modus-lisp.json`](examples/modus-lisp.json).
+
+The rest are drawn by `graph->svg` and rendered with
+[stencil](https://github.com/modus-lisp/stencil):
+
 | | |
 |---|---|
-| ![A pipeline laid out right, with a long edge routed around a node](examples/pipeline.png) | ![A compound node laid out downward, with an edge leaving it](examples/hierarchy.png) |
-| ![Ports on the east and west sides, with their edges](examples/ports.png) | The inputs are in [`examples/`](examples/): `pipeline.json`, `hierarchy.json`, `ports.json`, each with its `.svg` output. |
+| ![A pipeline laid out right, with a long edge routed around a node](examples/pipeline.png) | ![A state machine with labelled transitions, a self-loop and a back edge](examples/states.png) |
+| **pipeline**: a long edge routed around the node it skips | **states**: edge labels, a self-loop, and cycles broken in input order |
+| ![A compound node laid out downward with its children, and edges leaving it](examples/hierarchy.png) | ![Ports on the east and west sides of three nodes, with their edges](examples/ports.png) |
+| **hierarchy**: a compound node sized to its children, with edges crossing its border | **ports**: fixed port sides, with edges entering and leaving at them |
+
+Each picture's input is the `.json` of the same name in
+[`examples/`](examples/), next to its `.svg`.
 
 ## API
 

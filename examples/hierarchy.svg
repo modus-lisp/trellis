@@ -1,12 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="216.00" height="148.00" viewBox="-4 -4 216.00 148.00">
-<defs><marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#556"/></marker></defs>
-<rect x="0" y="0" width="208.00" height="140.00" fill="#fbfbfd"/>
-<rect x="12.00" y="12.00" width="184.00" height="60.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
-<text x="12.00" y="12.00" font-size="11" font-family="sans-serif">api</text>
-<rect x="24.00" y="24.00" width="70.00" height="36.00" rx="3" fill="#f6f6ee" stroke="#334" stroke-width="1"/>
-<rect x="114.00" y="24.00" width="70.00" height="36.00" rx="3" fill="#f6f6ee" stroke="#334" stroke-width="1"/>
-<rect x="59.00" y="92.00" width="90.00" height="36.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
-<text x="59.00" y="92.00" font-size="11" font-family="sans-serif">store</text>
-<path d="M104.00 72.00 L104.00 92.00" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
-<path d="M94.00 42.00 L114.00 42.00" fill="none" stroke="#556" stroke-width="1.2" marker-end="url(#arrow)"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="155.67" height="354.29" viewBox="-4 -4 155.67 354.29">
+<rect x="0" y="0" width="147.67" height="346.29" fill="#fbfbfd"/>
+<rect x="18.33" y="12.00" width="117.33" height="205.29" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="68.66" y="26.83" font-size="11" font-family="sans-serif">api</text>
+<rect x="30.33" y="57.29" width="80.00" height="36.00" rx="3" fill="#f6f6ee" stroke="#334" stroke-width="1"/>
+<text x="54.97" y="78.98" font-size="11" font-family="sans-serif">router</text>
+<rect x="43.67" y="113.29" width="80.00" height="36.00" rx="3" fill="#f6f6ee" stroke="#334" stroke-width="1"/>
+<text x="71.96" y="134.98" font-size="11" font-family="sans-serif">auth</text>
+<rect x="30.33" y="169.29" width="80.00" height="36.00" rx="3" fill="#f6f6ee" stroke="#334" stroke-width="1"/>
+<text x="50.99" y="190.98" font-size="11" font-family="sans-serif">handler</text>
+<rect x="12.00" y="242.29" width="90.00" height="36.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="41.32" y="263.98" font-size="11" font-family="sans-serif">cache</text>
+<rect x="27.00" y="298.29" width="90.00" height="36.00" rx="3" fill="#e4ecf4" stroke="#334" stroke-width="1"/>
+<text x="58.77" y="319.98" font-size="11" font-family="sans-serif">store</text>
+<path d="M57.00 205.29 L57.00 242.29" fill="none" stroke="#556" stroke-width="1.2"/>
+<polygon points="57.00,242.29 60.50,234.29 53.50,234.29" fill="#556"/>
+<path d="M83.67 205.29 L83.67 232.29 L112.00 232.29 L112.00 288.29 L87.00 288.29 L87.00 298.29" fill="none" stroke="#556" stroke-width="1.2"/>
+<polygon points="87.00,298.29 90.50,290.29 83.50,290.29" fill="#556"/>
+<path d="M57.00 278.29 L57.00 298.29" fill="none" stroke="#556" stroke-width="1.2"/>
+<polygon points="57.00,298.29 60.50,290.29 53.50,290.29" fill="#556"/>
+<path d="M83.67 93.29 L83.67 113.29" fill="none" stroke="#556" stroke-width="1.2"/>
+<polygon points="83.67,113.29 87.17,105.29 80.17,105.29" fill="#556"/>
+<path d="M83.67 149.29 L83.67 169.29" fill="none" stroke="#556" stroke-width="1.2"/>
+<polygon points="83.67,169.29 87.17,161.29 80.17,161.29" fill="#556"/>
+<path d="M57.00 93.29 L57.00 103.29 L32.67 103.29 L32.67 159.29 L57.00 159.29 L57.00 169.29" fill="none" stroke="#556" stroke-width="1.2"/>
+<polygon points="57.00,169.29 60.50,161.29 53.50,161.29" fill="#556"/>
 </svg>

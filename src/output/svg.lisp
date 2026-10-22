@@ -59,6 +59,19 @@
     (jdo (child (get-children node))
       (%svg-write-node child origin (1+ depth) stream))))
 
+(defun %svg-write-arrowhead (from to stream)
+  "A filled triangle with its tip at TO, pointing along FROM -> TO.  Drawn as a
+polygon rather than a marker so renderers without marker support show it."
+  (let* ((dx (- (car to) (car from))) (dy (- (cdr to) (cdr from)))
+         (len (sqrt (+ (* dx dx) (* dy dy)))))
+    (when (> len 1d-9)
+      (let* ((ux (/ dx len)) (uy (/ dy len))
+             (bx (- (car to) (* 8 ux))) (by (- (cdr to) (* 8 uy))))
+        (format stream "<polygon points=\"~A,~A ~A,~A ~A,~A\" fill=\"#556\"/>~%"
+                (%svg-num (car to)) (%svg-num (cdr to))
+                (%svg-num (+ bx (* 3.5 uy))) (%svg-num (- by (* 3.5 ux)))
+                (%svg-num (- bx (* 3.5 uy))) (%svg-num (+ by (* 3.5 ux))))))))
+
 (defun %svg-write-edges (node origin stream)
   (jdo (edge (get-contained-edges node))
     (let* ((container (or (get-containing-node edge) node))
@@ -67,12 +80,12 @@
         (let ((pts (append (list (cons (get-start-x section) (get-start-y section)))
                            (mapcar (lambda (b) (cons (get-x b) (get-y b))) (coerce (jlist-from (get-bend-points section)) (quote list)))
                            (list (cons (get-end-x section) (get-end-y section))))))
-          (format stream "<path d=\"M~{~A~^ L~}\" fill=\"none\" stroke=\"#556\" stroke-width=\"1.2\" marker-end=\"url(#arrow)\"/>~%"
-                  (mapcar (lambda (p)
-                            (format nil "~A ~A"
-                                    (%svg-num (+ (car c) (float (car p) 1d0)))
-                                    (%svg-num (+ (cdr c) (float (cdr p) 1d0)))))
-                          pts))))
+          (let ((points (mapcar (lambda (p)
+                               (cons (+ (car c) (float (car p) 1d0)) (+ (cdr c) (float (cdr p) 1d0))))
+                             pts)))
+            (format stream "<path d=\"M~{~A~^ L~}\" fill=\"none\" stroke=\"#556\" stroke-width=\"1.2\"/>~%"
+                    (mapcar (lambda (p) (format nil "~A ~A" (%svg-num (car p)) (%svg-num (cdr p)))) points))
+            (%svg-write-arrowhead (car (last points 2)) (car (last points)) stream))))
       (jdo (label (get-labels edge))
         (%svg-write-label label c stream))))
   (jdo (child (get-children node))
@@ -88,7 +101,6 @@ STREAM is NIL.  Run the layout first; this does not lay anything out."
              (origin (make-hash-table :test #'eq)))
         (format stream "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"~A\" height=\"~A\" viewBox=\"-4 -4 ~A ~A\">~%"
                 (%svg-num w) (%svg-num h) (%svg-num w) (%svg-num h))
-        (format stream "<defs><marker id=\"arrow\" viewBox=\"0 0 10 10\" refX=\"10\" refY=\"5\" markerWidth=\"7\" markerHeight=\"7\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#556\"/></marker></defs>~%")
         (format stream "<rect x=\"0\" y=\"0\" width=\"~A\" height=\"~A\" fill=\"#fbfbfd\"/>~%"
                 (%svg-num (get-width root)) (%svg-num (get-height root)))
         (%svg-write-node root origin 0 stream)
