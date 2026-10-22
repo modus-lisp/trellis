@@ -37,10 +37,17 @@
                         (json-array-add arr (%json-point (get-x b) (get-y b))))
                       arr)))
 
+(defun %json-id-array (shapes)
+  (let ((arr (make-json-array)))
+    (jdo (shape shapes) (json-array-add arr (get-identifier shape)))
+    arr))
+
 (defun %json-edge (edge)
   (let ((sections (make-json-array)))
     (jdo (s (get-sections edge)) (json-array-add sections (%json-section s)))
     (make-json-object "id" (get-identifier edge)
+                      "sources" (%json-id-array (get-sources edge))
+                      "targets" (%json-id-array (get-targets edge))
                       "labels" (%json-labels (get-labels edge))
                       "sections" sections)))
 
