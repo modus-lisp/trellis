@@ -13,8 +13,7 @@
   (make-json-object "x" (%json-num x) "y" (%json-num y)))
 
 (defun %json-label (label)
-  (make-json-object "id" (get-identifier label)
-                    "text" (get-text label)
+  (make-json-object "text" (get-text label)
                     "x" (%json-num (get-x label)) "y" (%json-num (get-y label))
                     "width" (%json-num (get-width label)) "height" (%json-num (get-height label))))
 
@@ -30,8 +29,7 @@
                     "labels" (%json-labels (get-labels port))))
 
 (defun %json-section (section)
-  (make-json-object "id" (get-identifier section)
-                    "startPoint" (%json-point (get-start-x section) (get-start-y section))
+  (make-json-object "startPoint" (%json-point (get-start-x section) (get-start-y section))
                     "endPoint" (%json-point (get-end-x section) (get-end-y section))
                     "bendPoints"
                     (let ((arr (make-json-array)))

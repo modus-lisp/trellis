@@ -21,9 +21,10 @@
     (funcall thunk)))
 
 (eval `(asdf:defsystem "trellis"
-         :description "Eclipse Layout Kernel (ELK), ported to Common Lisp"
-         :license "EPL-2.0"
-         :serial t
+         :version "1.0.0"
+         :description "Automatic graph layout in Common Lisp, after the Eclipse Layout Kernel"
+         :license "MIT"
          :depends-on ("json-simple")
+         :serial t
          :around-compile call-with-java-reader
          :components ,(trellis-module-components (directory-namestring *load-truename*))))

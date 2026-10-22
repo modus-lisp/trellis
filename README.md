@@ -1,61 +1,61 @@
-# diagram
+# trellis
 
 Automatic graph layout for Common Lisp, after the
-[Eclipse Layout Kernel](https://eclipse.dev/elk/) (ELK).  It reads and writes
-**ELK's JSON graph format**, so an elkjs input works unchanged, and it has no
-dependencies.
+[Eclipse Layout Kernel](https://eclipse.dev/elk/) (ELK). It reads and writes
+ELK's JSON graph format, so elkjs input works unchanged.
 
 ```lisp
-(diagram:layout-json "{\"id\":\"root\",\"layoutOptions\":{\"elk.direction\":\"DOWN\"},
-  \"children\":[{\"id\":\"a\",\"width\":40,\"height\":30},{\"id\":\"b\",\"width\":40,\"height\":30}],
-  \"edges\":[{\"id\":\"e\",\"sources\":[\"a\"],\"targets\":[\"b\"]}]}")
+(trellis:layout-json
+ "{\"id\":\"root\",\"layoutOptions\":{\"elk.direction\":\"DOWN\"},
+   \"children\":[{\"id\":\"a\",\"width\":40,\"height\":30},
+                 {\"id\":\"b\",\"width\":40,\"height\":30}],
+   \"edges\":[{\"id\":\"e\",\"sources\":[\"a\"],\"targets\":[\"b\"]}]}")
 ;; => the same graph with x/y on every node and "sections" on every edge
 
-(diagram:graph->svg
-  (diagram:layout
-    (diagram:plist->graph
-      '(:id "root" :children ((:id "a" :labels ((:text "a"))) (:id "b" :labels ((:text "b"))))
-        :edges ((:id "e" :sources ("a") :targets ("b")))))))
+(trellis:graph->svg (trellis:layout (trellis:read-graph-file "graph.json")))
+;; => SVG markup, a string when no stream is given
 ```
 
-## Algorithms
+## API
 
-| `elk.algorithm` | |
+| function | |
 |---|---|
-| `layered` (default) | Sugiyama: DFS cycle breaking, longest-path layering, dummy nodes for long edges, barycenter sweeps + transposition for crossings, node placement by isotonic regression toward neighbours, orthogonal routing with per-channel slot assignment (or polyline) |
-| `box` / `rectpacking` | rows of nodes, straight edges |
-| `fixed` | keep given positions, straight edges |
+| `layout-json text` | ELK JSON text in, laid-out ELK JSON text out |
+| `layout graph` | lays an ELK graph out in place and returns it |
+| `graph->svg graph &optional stream` | SVG markup of a laid-out graph |
+| `read-graph-file path` | `.json`, `.elkt`, or `.elkg` (read through its sibling `.json`) |
+| `read-elkt path` | an ELK Graph Text file |
 
-Supported options (the `org.eclipse.elk.` / `elk.` / `layered.` prefixes are optional):
-`direction` (RIGHT DOWN LEFT UP), `edgeRouting` (ORTHOGONAL POLYLINE; SPLINES
-falls back to polyline), `padding`, `spacing.nodeNode`,
-`spacing.nodeNodeBetweenLayers`, `spacing.edgeEdge`, `spacing.edgeNode`,
-`spacing.componentComponent`, `separateConnectedComponents`.  Options are
-inherited from ancestors.
+Each level of a graph is laid out by its `elk.algorithm` option. The
+`layered` algorithm is the one ported so far.
 
-Hierarchy: each compound node is laid out bottom-up with its own options and
-sized to fit.  An edge belongs to the deepest node that contains both ends
-(reported as `"container"`; its points are relative to that node).
+## Status
 
-Ports: a port with outgoing edges goes on the downstream side, incoming on
-the upstream side, ordered to avoid crossings.
+The layered engine is a port of ELK's, with ELK's class structure and option
+names. ELK's own layered test suite is ported under `src/test-*`. Most of it
+passes; six layout-quality checks still fail (port and label placement, a
+self-loop label, a node sized too small for its content, and partition
+order). Spline edge routing runs, but its geometry has not been checked
+against ELK's reference output.
 
-## Not yet (vs. ELK)
+Not ported: the other ELK algorithms (box, fixed, force, mrtree, radial,
+rectpacking, spore, stress, topdown).
 
-- edges that cross a hierarchy boundary attach to the outer compound node,
-  not through it to the inner node (ELK's `INCLUDE_CHILDREN`)
-- `portConstraints` other than FREE; port labels are not placed
-- Brandes–Köpf placement, network-simplex layering, splines, edge-label
-  space reservation, the force/stress/mrtree/radial algorithms
+## Running the tests
 
-## Tests
+The test models are ELK's and are not in this repository. Point `MODELS_REPO`
+at a checkout of them. `src/test-framework` has the runner, `run-elk-tests`.
 
-    sbcl --script test/run.lisp
+## Source layout
 
-Property checks rather than golden output, which is ELK's own style: no
-sibling overlaps, children inside parents, every orthogonal segment
-axis-aligned, every edge anchored on its endpoints' borders, flow order per
-direction, JSON round trip keeping unknown fields; plus 40 seeded random
-graphs.  `examples/` has rendered SVGs.
+`src/MODULES` lists the modules in load order, and each module has a
+`files.txt`. `PORTING.md` describes the naming conventions.
 
-License: EPL-2.0, ELK's.
+## Dependencies
+
+[json-simple](https://github.com/modus-lisp) for JSON. SVG rendering is done
+by [stencil](https://github.com/modus-lisp), not by this library.
+
+## License
+
+MIT. See `LICENSE`.
