@@ -39,12 +39,19 @@
 
 ;;; ---- candidates ----------------------------------------------------------------
 ;;;
-;;; The candidates option runs the layout with that many random seeds and keeps
-;;; the one with the fewest crossings, then fewest bends, then shortest edges.
+;;; The candidates option runs the layout with that many consecutive seeds and
+;;; keeps the lowest-energy result: the fewest crossings, then the shortest
+;;; total edge length, then the smallest area, compared in that order.
 
 (defun frame-score (node)
   (let ((m (layout-metrics node :edges (frame-edges node))))
-    (+ (* 1d6 (getf m :crossings)) (* 1d3 (getf m :bends)) (getf m :edge-length))))
+    (list (getf m :crossings) (getf m :edge-length) (* (node-width node) (node-height node)))))
+
+(defun score< (a b)
+  (loop for x in a for y in b
+        do (cond ((< x (- y 1d-6)) (return t))
+                 ((> x (+ y 1d-6)) (return nil)))
+        finally (return nil)))
 
 (defun snapshot-frame (node)
   (let ((shapes '()))
@@ -79,9 +86,10 @@
          (dotimes (i n)
            (restore-frame node start)
            (set-option node :random-seed (+ seed i))
-           (layered-layout node)
+           ;; each candidate starts from its own seed, not the input order
+           (let ((*sweep-start* :random-first)) (layered-layout node))
            (let ((score (frame-score node)))
-             (when (or (null best-score) (< score best-score))
+             (when (or (null best-score) (score< score best-score))
                (setf best-score score best (snapshot-frame node)))))
       (set-option node :random-seed seed))
     (restore-frame node best)))

@@ -1,7 +1,7 @@
 ;;;; trellis.asd -- automatic graph layout in Common Lisp.
 
 (asdf:defsystem "trellis"
-  :version "1.0.1"
+  :version "2.2.0"
   :description "Automatic graph layout in Common Lisp: layered (Sugiyama) and
 other algorithms, built from the published papers, reading and writing ELK JSON."
   :license "MIT"

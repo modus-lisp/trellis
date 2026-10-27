@@ -144,30 +144,39 @@ Each phase follows its paper:
    - cut values from the low/lim numbering,
    - exchanges updating only the tree path.
 
-   Partitions are layered one by one and stacked. First and last constraints go
-   on top.
+   Partitions are layered in the same problem: between neighbouring
+   partitions sits an auxiliary node, which every node of the upper partition
+   must precede and every node of the lower one follow. Its edges weigh
+   nothing, so edges between partitions still pull their ends together. First
+   and last constraints go on top.
 3. **Dummy nodes.** Long edges get one dummy per layer they cross. Centre edge
    labels get a dummy node as large as the labels, so a layer makes room for them.
 4. **Crossing reduction.** A layer sweep with port-aware barycenters, using the
    node-relative ranks of Schulze, Spönemann & von Hanxleden (2014). Ports whose
    order is free share a rank per side and are sorted afterwards (their
    Algorithm 1). Crossings are counted with the accumulator tree of Barth,
-   Jünger & Mutzel (2004). The best of `:thoroughness` seeded runs is kept,
-   followed by a greedy-switch pass.
+   Jünger & Mutzel (2004). The best of `:thoroughness` runs is kept, then
+   improved by sifting (Matuszewski, Schönfeld & Molitor 1999) and a
+   greedy-switch pass. Sifting moves each node to its best place in its layer,
+   from a table of pairwise crossings. The first run starts from the input
+   order, the others from seeded shuffles.
 5. **Node placement.** Brandes & Köpf (2001), with the corrections of Brandes,
    Walter & Zink (2020), extended for sizes and ports. Block members carry inner
    shifts, so aligned edges run straight between ports, not node corners. The
    most compact of the four alignments is used; `:fixed-alignment :balanced`
    asks for the balanced combination instead.
-6. **Edge routing.** Orthogonal routing as Weber (2019) describes ELK's router,
-   after Sander. Every edge has at most one vertical segment per gap between
-   layers, and edges sharing a port share it (a hypernode). Pairs of hypernodes
-   are compared in both left-to-right orders by the crossings each causes.
-   trellis departs from that description in one place. Pairs that cost the
-   same either way only need different slots, so they are not entered as
-   two-cycles. Strict preferences alone are ordered by a weighted greedy cycle
-   breaker. Slots are then assigned in topological order. On the corpus this
-   routes with exactly the crossings the node order implies.
+6. **Edge routing.** Orthogonal routing with Sander's (2003) segment crossing
+   graph, as Weber (2019) describes ELK's use of it:
+   - Every edge has at most one vertical segment per gap between layers, and
+     edges sharing a port share it (a hypernode).
+   - Each pair of hypernodes is compared in both left-to-right orders by the
+     crossings each causes; the cheaper order becomes a weighted preference.
+   - Pairs that cost the same either way only need different slots. As in
+     Sander, and unlike the two-cycles ELK uses, they impose no order.
+   - The preferences are made acyclic by Eades' greedy heuristic, and slots
+     are assigned in topological order.
+
+   On the corpus this routes with exactly the crossings the node order implies.
 
 **Ports that do not face the flow** follow the global approach of Schulze et
 al., Section 4:
@@ -211,8 +220,9 @@ Also handled:
 - **Self loops** run round their node's border.
 - **Directions:** all four.
 - **Connected components** are laid out separately and packed.
-- **`candidates`**: N seeds, keeping the layout with the fewest crossings, then
-  bends, then edge length.
+- **`candidates`**: N consecutive seeds, each crossing reduction starting from
+  its own shuffle. It keeps the lowest-energy result: the fewest crossings,
+  then the shortest total edge length, then the smallest area.
 
 **Hierarchy.** Compound nodes are laid out bottom-up. An edge between different
 compound nodes is split along its path through the hierarchy. A temporary port
@@ -240,7 +250,7 @@ runs every case under the same 30-second budget and applies the same checks:
 | laid out, a check failed | 15 | 381 |
 | error | 0 | 96 |
 | timeout | 0 | 8 |
-| total time | 35 s | 119 s |
+| total time | 71 s | 119 s |
 
 Of the 15, 13 are `:fixed` layouts whose given positions overlap, and 2 are
 `:fixed` compound nodes inside layered graphs. Fixed keeps positions by design.
@@ -250,10 +260,10 @@ over the edges ELK routed. For layered graphs:
 
 | layered | trellis | ELK |
 |---|---|---|
-| total crossings, flat graphs (279) | 153,805 | 158,676 |
-| total crossings, hierarchical graphs (20) | 9,288 | 35,733 |
+| total crossings, flat graphs (279) | 141,690 | 158,676 |
+| total crossings, hierarchical graphs (20) | 8,709 | 35,733 |
 | edges through nodes | 0 | 144 |
-| total area, flat graphs | 0.78× | 1 |
+| total area, flat graphs | 0.74× | 1 |
 
 The full tables are in [`test/corpus-report.md`](test/corpus-report.md), and every
 case's numbers in `test/corpus-results.jsonl`.

@@ -207,6 +207,11 @@
               do (compute-port-ranks (aref layers (1+ i)) nil)
                  (order-layer (aref layers i) nil rng)))))
 
+(defvar *sweep-start* :model-first
+  "How crossing reduction starts: :model-first keeps the input order for its
+   first run; :random-first shuffles the first layer from the seed in every run,
+   so different seeds give different layouts (what candidates relies on).")
+
 (defun minimize-crossings (lg)
   (let* ((opts (lgraph-options-node lg))
          (strategy (opt-enum opts :crossing-minimization-strategy :layer-sweep))
@@ -220,14 +225,14 @@
             (start (snapshot-order lg)))
         (dotimes (run runs)
           (restore-order lg start)
-          (when (plusp run)
-            (let ((first (aref layers 0)))
-              (rng-shuffle rng first)
-              (loop for n across first for i from 0 do (setf (lnode-order n) i))
-              (regroup-units first)))
+          (when (or (plusp run) (member *sweep-start* '(:random-first :random-all)))
+            (loop for layer across (if (eq *sweep-start* :random-all) layers (vector (aref layers 0)))
+                  do (rng-shuffle rng layer)
+                     (loop for n across layer for i from 0 do (setf (lnode-order n) i))
+                     (regroup-units layer)))
           (let ((forward t) (current most-positive-fixnum) (stall 0))
             (loop for iter from 0 below 40
-                  do (sweep lg forward (and (plusp run) rng))
+                  do (sweep lg forward (and (or (plusp run) (not (eq *sweep-start* :model-first))) rng))
                      (let ((c (count-all-crossings lg)))
                        (if (< c current)
                            (setf current c stall 0)
@@ -236,9 +241,82 @@
                        (when (or (zerop c) (>= stall 2)) (return)))
                      (setf forward (not forward)))))
         (restore-order lg best-snap)
+        (sift lg)
         (unless (eq (opt-enum opts :greedy-switch-type :two-sided '(:off :one-sided :two-sided)) :off)
           (greedy-switch lg))))
     (final-port-order lg)))
+
+;;; ---- sifting ----------------------------------------------------------------------
+;;;
+;;; Matuszewski, Schönfeld and Molitor (1999): take each node out of its layer
+;;; and put it back where it causes the fewest crossings with both neighbouring
+;;; layers, using a table of pairwise crossings.  Repeated down and up the
+;;; layers while it helps.  Layout units stay whole: their members do not move,
+;;; and nothing is put between them.
+
+(defun neighbour-ends (n incoming pos)
+  "Sorted positions, in table POS, of the ports N's edges reach on one side."
+  (let ((out '()))
+    (dolist (p (if incoming (ports-in-order n) (ports-out-order n)))
+      (dolist (e (if incoming (lport-incoming p) (lport-outgoing p)))
+        (let ((q (gethash (if incoming (ledge-source e) (ledge-target e)) pos)))
+          (when q (push q out)))))
+    (sort (coerce out 'simple-vector) #'<)))
+
+(defun count-below (a b)
+  "Pairs (x in A, y in B) with y < x; A and B sorted."
+  (let ((count 0) (j 0) (nb (length b)))
+    (loop for x across a
+          do (loop while (and (< j nb) (< (svref b j) x)) do (incf j))
+             (incf count j))
+    count))
+
+(defun sift-layer (layer left right)
+  "Sift LAYER (a vector) against fixed neighbour port positions.  Returns true
+   when the order changed."
+  (let* ((m (length layer)) (changed nil))
+    (when (and (> m 2) (<= m 400))
+      (let ((ends (make-hash-table :test 'eq)))
+        (loop for n across layer
+              do (setf (gethash n ends)
+                       (cons (if left (neighbour-ends n t left) #()) (if right (neighbour-ends n nil right) #()))))
+        (flet ((c (u v)
+                 ;; crossings with U above V
+                 (let ((eu (gethash u ends)) (ev (gethash v ends)))
+                   (+ (count-below (car eu) (car ev)) (count-below (cdr eu) (cdr ev))))))
+          (dolist (v (sort (remove-if #'unit-member-p (coerce layer 'list)) #'>
+                           :key (lambda (n) (+ (length (node-incoming n)) (length (node-outgoing n))))))
+            (let* ((rest (remove v (coerce layer 'list)))
+                   (best-pos 0) (best-cost nil)
+                   (cost (loop for w in rest sum (c v w))))
+              (loop for p from 0 to (length rest)
+                    for prev = nil then w
+                    for w in (append rest (list nil))
+                    do (when prev
+                         (incf cost (- (c prev v) (c v prev))))
+                       (unless (and prev w (unit-member-p prev) (unit-member-p w)
+                                    (eq (or (lnode-data prev :unit-owner) prev)
+                                        (or (lnode-data w :unit-owner) w)))
+                         (when (or (null best-cost) (< cost best-cost))
+                           (setf best-cost cost best-pos p))))
+              (let ((new (append (subseq rest 0 best-pos) (list v) (nthcdr best-pos rest))))
+                (unless (eq (nth (lnode-order v) new) v) (setf changed t))
+                (loop for n in new for i from 0 do (setf (aref layer i) n (lnode-order n) i))))))))
+    changed))
+
+(defun sift (lg)
+  (let* ((layers (lgraph-layers lg)) (k (length layers))
+         (best (count-all-crossings lg)) (snap (snapshot-order lg)))
+    (loop repeat 4
+          do (loop for i in (append (loop for i below k collect i) (loop for i from (1- k) downto 0 collect i))
+                   do (sift-layer (aref layers i)
+                                  (and (> i 0) (port-positions (aref layers (1- i)) nil))
+                                  (and (< i (1- k)) (port-positions (aref layers (1+ i)) t))))
+             (let ((c (count-all-crossings lg)))
+               (if (< c best)
+                   (setf best c snap (snapshot-order lg))
+                   (return))))
+    (restore-order lg snap)))
 
 ;;; ---- greedy switch -------------------------------------------------------------------
 ;;;

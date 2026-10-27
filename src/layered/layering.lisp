@@ -297,6 +297,31 @@
                          (longest-path-ranks (length comp) (nreverse edges)))))
           (loop for v in comp for i from 0 do (setf (gethash v rank) (aref ranks i))))))))
 
+(defun layer-partitioned (parts strategy rank)
+  "Layer the node lists PARTS so each lies wholly below the one before it.
+   Between neighbouring partitions sits an auxiliary node every node of the
+   upper one must precede and every node of the lower one follow; those edges
+   weigh nothing, so network simplex still shortens the real edges, the ones
+   between partitions included."
+  (let* ((idx (make-hash-table :test 'eq)) (n 0) (edges '()))
+    (dolist (part parts) (dolist (v part) (setf (gethash v idx) n) (incf n)))
+    (dolist (part parts)
+      (dolist (v part)
+        (dolist (e (node-outgoing v))
+          (let ((j (gethash (tgt-node e) idx)))
+            (when j (push (list (gethash v idx) j 1 (max 1 (round (ledge-weight e)))) edges))))))
+    (loop for (upper lower) on parts while lower
+          do (let ((b n))
+               (incf n)
+               (dolist (v upper) (push (list (gethash v idx) b 0 0) edges))
+               (dolist (v lower) (push (list b (gethash v idx) 1 0) edges))))
+    (let ((ranks (if (and (member strategy '(:network-simplex :interactive :stretch-width :min-width
+                                              :coffman-graham :bf-model-order :df-model-order))
+                          (<= n 3000))
+                     (network-simplex n (nreverse edges))
+                     (longest-path-ranks n (nreverse edges)))))
+      (maphash (lambda (v i) (setf (gethash v rank) (aref ranks i))) idx))))
+
 (defun longest-path-ranks (n edges)
   (let ((ns (make-ns n edges))) (ns-init-rank ns) (normalize-ranks (ns-rank ns))))
 
@@ -306,17 +331,12 @@
          (rank (make-hash-table :test 'eq))
          (inner (remove-if (lambda (n) (member (lnode-constraint n) '(:first-separate :last-separate)))
                            nodes)))
-    ;; partitions: layer each, then stack them
-    (let ((parts (sort (group-by (lambda (n) (or (lnode-partition n) 0)) inner) #'< :key #'car))
-          (offset 0))
-      (dolist (part parts)
-        (let ((sub (make-hash-table :test 'eq)))
-          (layer-subgraph (cdr part) strategy sub)
-          (let ((top 0))
-            (dolist (n (cdr part))
-              (setf (gethash n rank) (+ offset (gethash n sub)))
-              (setf top (max top (gethash n sub))))
-            (setf offset (+ offset top 1))))))
+    ;; partitions: one problem for the whole graph, so edges between
+    ;; partitions still pull their ends together
+    (let ((parts (sort (group-by (lambda (n) (or (lnode-partition n) 0)) inner) #'< :key #'car)))
+      (if (cdr parts)
+          (layer-partitioned (mapcar #'cdr parts) strategy rank)
+          (layer-subgraph inner strategy rank)))
     ;; first / last
     (let ((maxr 0))
       (dolist (n inner) (when (eq (lnode-constraint n) :first) (setf (gethash n rank) 0)))
