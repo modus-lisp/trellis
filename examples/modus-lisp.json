@@ -1,0 +1,788 @@
+{
+    "id": "root",
+    "layoutOptions": {
+        "elk.algorithm": "layered",
+        "elk.direction": "DOWN",
+        "elk.edgeRouting": "ORTHOGONAL",
+        "elk.randomSeed": "1",
+        "elk.partitioning.activate": "true",
+        "elk.separateConnectedComponents": "false",
+        "elk.layered.spacing.nodeNodeBetweenLayers": "46",
+        "elk.spacing.nodeNode": "14",
+        "elk.layered.spacing.edgeNodeBetweenLayers": "14",
+        "elk.spacing.edgeEdge": "6",
+        "elk.layered.nodePlacement.strategy": "NETWORK_SIMPLEX",
+        "elk.layered.thoroughness": "30",
+        "trellis.candidates": "8",
+        "elk.padding": "[top=10,left=150,bottom=10,right=10]"
+    },
+    "children": [
+        {
+            "id": "beacon",
+            "width": 65,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "cabinet",
+            "width": 72,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "cairn",
+            "width": 58,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "cassette",
+            "width": 80,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "2"
+            }
+        },
+        {
+            "id": "chord",
+            "width": 58,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "cl-consensus",
+            "width": 108,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "cl-deposits",
+            "width": 101,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "cl-fips",
+            "width": 72,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "cl-frpc",
+            "width": 72,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "cl-marmot",
+            "width": 87,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "cl-nostr",
+            "width": 80,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "cl-payments",
+            "width": 101,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "cl-sev-snp",
+            "width": 94,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "cl-tor",
+            "width": 65,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "conch",
+            "width": 58,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "emissary",
+            "width": 80,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "folio",
+            "width": 58,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "glass",
+            "width": 58,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "glass-sdl",
+            "width": 87,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "glass-webrtc",
+            "width": 108,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "loom",
+            "width": 51,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "mill",
+            "width": 51,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "operandi",
+            "width": 80,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "operandi-gui",
+            "width": 108,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "pagetree",
+            "width": 80,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "2"
+            }
+        },
+        {
+            "id": "pigment",
+            "width": 72,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "2"
+            }
+        },
+        {
+            "id": "png-pure",
+            "width": 80,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "2"
+            }
+        },
+        {
+            "id": "quill",
+            "width": 58,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "2"
+            }
+        },
+        {
+            "id": "reed",
+            "width": 51,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "2"
+            }
+        },
+        {
+            "id": "reel",
+            "width": 51,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "2"
+            }
+        },
+        {
+            "id": "shuttle",
+            "width": 72,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "spool",
+            "width": 58,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "stave",
+            "width": 58,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "warp",
+            "width": 51,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "warren",
+            "width": 65,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "0"
+            }
+        },
+        {
+            "id": "webp-pure",
+            "width": 87,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "2"
+            }
+        },
+        {
+            "id": "webrtc-data",
+            "width": 101,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "webrtc-media",
+            "width": 108,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "weft",
+            "width": 51,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "1"
+            }
+        },
+        {
+            "id": "zstd-pure",
+            "width": 87,
+            "height": 26,
+            "layoutOptions": {
+                "elk.partitioning.partition": "2"
+            }
+        },
+        {
+            "id": "C0",
+            "width": 362,
+            "height": 26,
+            "ports": [
+                {
+                    "id": "C0.in",
+                    "x": 36.0,
+                    "y": 0,
+                    "width": 1,
+                    "height": 1,
+                    "layoutOptions": {
+                        "elk.port.side": "NORTH"
+                    }
+                },
+                {
+                    "id": "C0.out",
+                    "x": 311.5,
+                    "y": 26,
+                    "width": 1,
+                    "height": 1,
+                    "layoutOptions": {
+                        "elk.port.side": "SOUTH"
+                    }
+                }
+            ],
+            "layoutOptions": {
+                "elk.partitioning.partition": "2",
+                "elk.portConstraints": "FIXED_POS"
+            }
+        }
+    ],
+    "edges": [
+        {
+            "id": "e0",
+            "sources": [
+                "beacon"
+            ],
+            "targets": [
+                "cl-nostr"
+            ]
+        },
+        {
+            "id": "e1",
+            "sources": [
+                "cabinet"
+            ],
+            "targets": [
+                "pagetree"
+            ]
+        },
+        {
+            "id": "e2",
+            "sources": [
+                "cairn"
+            ],
+            "targets": [
+                "cabinet"
+            ]
+        },
+        {
+            "id": "e3",
+            "sources": [
+                "cairn"
+            ],
+            "targets": [
+                "conch"
+            ]
+        },
+        {
+            "id": "e4",
+            "sources": [
+                "cassette"
+            ],
+            "targets": [
+                "reed"
+            ]
+        },
+        {
+            "id": "e5",
+            "sources": [
+                "cassette"
+            ],
+            "targets": [
+                "reel"
+            ]
+        },
+        {
+            "id": "e6",
+            "sources": [
+                "chord"
+            ],
+            "targets": [
+                "mill"
+            ]
+        },
+        {
+            "id": "e7",
+            "sources": [
+                "chord"
+            ],
+            "targets": [
+                "weft"
+            ]
+        },
+        {
+            "id": "e8",
+            "sources": [
+                "cl-consensus"
+            ],
+            "targets": [
+                "cl-tor"
+            ]
+        },
+        {
+            "id": "e9",
+            "sources": [
+                "cl-consensus"
+            ],
+            "targets": [
+                "pagetree"
+            ]
+        },
+        {
+            "id": "e10",
+            "sources": [
+                "cl-deposits"
+            ],
+            "targets": [
+                "cl-consensus"
+            ]
+        },
+        {
+            "id": "e11",
+            "sources": [
+                "cl-deposits"
+            ],
+            "targets": [
+                "cl-nostr"
+            ]
+        },
+        {
+            "id": "e12",
+            "sources": [
+                "cl-marmot"
+            ],
+            "targets": [
+                "cl-nostr"
+            ]
+        },
+        {
+            "id": "e13",
+            "sources": [
+                "cl-payments"
+            ],
+            "targets": [
+                "cl-consensus"
+            ]
+        },
+        {
+            "id": "e14",
+            "sources": [
+                "emissary"
+            ],
+            "targets": [
+                "cl-nostr"
+            ]
+        },
+        {
+            "id": "e15",
+            "sources": [
+                "folio"
+            ],
+            "targets": [
+                "pigment"
+            ]
+        },
+        {
+            "id": "e16",
+            "sources": [
+                "glass"
+            ],
+            "targets": [
+                "chord"
+            ]
+        },
+        {
+            "id": "e17",
+            "sources": [
+                "glass"
+            ],
+            "targets": [
+                "cl-nostr"
+            ]
+        },
+        {
+            "id": "e18",
+            "sources": [
+                "glass"
+            ],
+            "targets": [
+                "reed"
+            ]
+        },
+        {
+            "id": "e19",
+            "sources": [
+                "glass"
+            ],
+            "targets": [
+                "stave"
+            ]
+        },
+        {
+            "id": "e20",
+            "sources": [
+                "glass-sdl"
+            ],
+            "targets": [
+                "glass"
+            ]
+        },
+        {
+            "id": "e21",
+            "sources": [
+                "glass-webrtc"
+            ],
+            "targets": [
+                "glass"
+            ]
+        },
+        {
+            "id": "e22",
+            "sources": [
+                "glass-webrtc"
+            ],
+            "targets": [
+                "webrtc-media"
+            ]
+        },
+        {
+            "id": "e23",
+            "sources": [
+                "loom"
+            ],
+            "targets": [
+                "folio"
+            ]
+        },
+        {
+            "id": "e24",
+            "sources": [
+                "loom"
+            ],
+            "targets": [
+                "glass"
+            ]
+        },
+        {
+            "id": "e25",
+            "sources": [
+                "operandi"
+            ],
+            "targets": [
+                "cl-nostr"
+            ]
+        },
+        {
+            "id": "e26",
+            "sources": [
+                "operandi"
+            ],
+            "targets": [
+                "cl-sev-snp"
+            ]
+        },
+        {
+            "id": "e27",
+            "sources": [
+                "operandi"
+            ],
+            "targets": [
+                "png-pure"
+            ]
+        },
+        {
+            "id": "e28",
+            "sources": [
+                "operandi"
+            ],
+            "targets": [
+                "quill"
+            ]
+        },
+        {
+            "id": "e29",
+            "sources": [
+                "operandi-gui"
+            ],
+            "targets": [
+                "operandi"
+            ]
+        },
+        {
+            "id": "e30",
+            "sources": [
+                "operandi-gui"
+            ],
+            "targets": [
+                "warp"
+            ]
+        },
+        {
+            "id": "e31",
+            "sources": [
+                "pigment"
+            ],
+            "targets": [
+                "C0.in"
+            ]
+        },
+        {
+            "id": "e32",
+            "sources": [
+                "pigment"
+            ],
+            "targets": [
+                "webp-pure"
+            ]
+        },
+        {
+            "id": "e33",
+            "sources": [
+                "spool"
+            ],
+            "targets": [
+                "glass"
+            ]
+        },
+        {
+            "id": "e34",
+            "sources": [
+                "stave"
+            ],
+            "targets": [
+                "mill"
+            ]
+        },
+        {
+            "id": "e35",
+            "sources": [
+                "stave"
+            ],
+            "targets": [
+                "weft"
+            ]
+        },
+        {
+            "id": "e36",
+            "sources": [
+                "warp"
+            ],
+            "targets": [
+                "cassette"
+            ]
+        },
+        {
+            "id": "e37",
+            "sources": [
+                "warp"
+            ],
+            "targets": [
+                "warren"
+            ]
+        },
+        {
+            "id": "e38",
+            "sources": [
+                "warren"
+            ],
+            "targets": [
+                "glass"
+            ]
+        },
+        {
+            "id": "e39",
+            "sources": [
+                "webp-pure"
+            ],
+            "targets": [
+                "reel"
+            ]
+        },
+        {
+            "id": "e40",
+            "sources": [
+                "webrtc-media"
+            ],
+            "targets": [
+                "reed"
+            ]
+        },
+        {
+            "id": "e41",
+            "sources": [
+                "webrtc-media"
+            ],
+            "targets": [
+                "reel"
+            ]
+        },
+        {
+            "id": "e42",
+            "sources": [
+                "webrtc-media"
+            ],
+            "targets": [
+                "webrtc-data"
+            ]
+        },
+        {
+            "id": "e43",
+            "sources": [
+                "weft"
+            ],
+            "targets": [
+                "pigment"
+            ]
+        },
+        {
+            "id": "e44",
+            "sources": [
+                "weft"
+            ],
+            "targets": [
+                "shuttle"
+            ]
+        },
+        {
+            "id": "e45",
+            "sources": [
+                "weft"
+            ],
+            "targets": [
+                "zstd-pure"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,534 @@
+{
+  "cases": 1000,
+  "status": {
+    "error": 96,
+    "ok": 515,
+    "timeout": 8,
+    "warn": 381
+  },
+  "byAlgorithm": {
+    "layered": {
+      "error": 26,
+      "ok": 299,
+      "warn": 60,
+      "timeout": 1
+    },
+    "radial": {
+      "timeout": 3,
+      "ok": 16,
+      "warn": 22,
+      "error": 17
+    },
+    "stress": {
+      "ok": 37,
+      "warn": 40,
+      "timeout": 2,
+      "error": 1
+    },
+    "force": {
+      "ok": 50,
+      "warn": 13,
+      "timeout": 2,
+      "error": 6
+    },
+    "sporeOverlap": {
+      "ok": 29,
+      "warn": 12,
+      "error": 1
+    },
+    "vertiflex": {
+      "ok": 14,
+      "warn": 4,
+      "error": 17
+    },
+    "random": {
+      "warn": 27,
+      "ok": 2
+    },
+    "rectpacking": {
+      "warn": 57,
+      "error": 13,
+      "ok": 1
+    },
+    "fixed": {
+      "warn": 22,
+      "error": 1,
+      "ok": 2
+    },
+    "topdownpacking": {
+      "warn": 27,
+      "ok": 2
+    },
+    "mrtree": {
+      "ok": 51,
+      "warn": 10,
+      "error": 13
+    },
+    "disco": {
+      "warn": 39,
+      "ok": 4,
+      "error": 1
+    },
+    "box": {
+      "warn": 26
+    },
+    "sporeCompaction": {
+      "warn": 22,
+      "ok": 8
+    }
+  },
+  "byFamily": {
+    "forest": {
+      "error": 3,
+      "ok": 22,
+      "warn": 21
+    },
+    "tree": {
+      "ok": 65,
+      "warn": 41,
+      "error": 16,
+      "timeout": 1
+    },
+    "caterpillar": {
+      "ok": 63,
+      "warn": 37,
+      "error": 12,
+      "timeout": 1
+    },
+    "grid": {
+      "ok": 34,
+      "error": 9,
+      "warn": 22,
+      "timeout": 1
+    },
+    "dag": {
+      "timeout": 1,
+      "warn": 27,
+      "ok": 27,
+      "error": 9
+    },
+    "components": {
+      "ok": 46,
+      "warn": 24,
+      "error": 5
+    },
+    "bipartite": {
+      "ok": 33,
+      "warn": 26,
+      "error": 4
+    },
+    "star": {
+      "warn": 33,
+      "ok": 43,
+      "error": 15
+    },
+    "gnm": {
+      "warn": 27,
+      "timeout": 2,
+      "ok": 40,
+      "error": 6
+    },
+    "complete": {
+      "warn": 33,
+      "ok": 28,
+      "timeout": 2,
+      "error": 4
+    },
+    "path": {
+      "warn": 26,
+      "ok": 39,
+      "error": 2
+    },
+    "layered-dag": {
+      "ok": 24,
+      "warn": 27,
+      "error": 2
+    },
+    "powerlaw": {
+      "warn": 21,
+      "ok": 25,
+      "error": 5
+    },
+    "cycle": {
+      "ok": 26,
+      "warn": 16,
+      "error": 4
+    }
+  },
+  "errorGroups": [
+    {
+      "signature": "IllegalArgumentException: Label and node size calculator can only be used with ports that have port sides assigned.",
+      "frame": "org.eclipse.elk.alg.common.nodespacing.internal.algorithm.PortContextCreator.createPortContexts(PortContextCreator.java:51)",
+      "count": 24,
+      "cases": [
+        "0043",
+        "0079",
+        "0140",
+        "0142",
+        "0149",
+        "0156",
+        "0241",
+        "0247",
+        "0289",
+        "0294",
+        "0451",
+        "0462",
+        "0475",
+        "0559",
+        "0561",
+        "0590",
+        "0657",
+        "0707",
+        "0769",
+        "0793",
+        "0848",
+        "0906",
+        "0948",
+        "0957"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: The given graph is not an acyclic tree!",
+      "frame": "org.eclipse.elk.alg.vertiflex.VertiFlexLayoutProvider.layout(VertiFlexLayoutProvider.java:72)",
+      "count": 17,
+      "cases": [
+        "0189",
+        "0370",
+        "0411",
+        "0439",
+        "0485",
+        "0621",
+        "0633",
+        "0638",
+        "0718",
+        "0734",
+        "0805",
+        "0844",
+        "0870",
+        "0913",
+        "0928",
+        "0942",
+        "0989"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: A target width has to be set if the TargetWidthWidthApproximator should be used.",
+      "frame": "org.eclipse.elk.alg.rectpacking.p1widthapproximation.TargetWidthWidthApproximator.process(TargetWidthWidthApproximator.java:47)",
+      "count": 5,
+      "cases": [
+        "0035",
+        "0212",
+        "0701",
+        "0712",
+        "0725"
+      ]
+    },
+    {
+      "signature": "NullPointerException: Cannot invoke \"java.lang.Integer.intValue()\" because the return value of \"java.util.Map.get(Object)\" is null",
+      "frame": "org.eclipse.elk.alg.layered.intermediate.greedyswitch.BetweenLayerEdgeTwoNodeCrossingsCounter$AdjacencyList.addAdjacencyOf(BetweenLayerEdgeTwoNodeCrossingsCounter.java:283)",
+      "count": 5,
+      "cases": [
+        "0275",
+        "0310",
+        "0324",
+        "0364",
+        "0610"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: null has not been assigned a top-down node type.",
+      "frame": "org.eclipse.elk.core.RecursiveGraphLayoutEngine.layoutRecursively(RecursiveGraphLayoutEngine.java:231)",
+      "count": 3,
+      "cases": [
+        "0169",
+        "0522",
+        "0980"
+      ]
+    },
+    {
+      "signature": "IllegalArgumentException: The given graph is not a tree!",
+      "frame": "org.eclipse.elk.alg.radial.RadialLayoutProvider.layout(RadialLayoutProvider.java:56)",
+      "count": 3,
+      "cases": [
+        "0251",
+        "0441",
+        "0845"
+      ]
+    },
+    {
+      "signature": "NullPointerException: Cannot read field \"x\" because \"position\" is null",
+      "frame": "org.eclipse.elk.alg.radial.intermediate.optimization.EdgeLengthPositionOptimization.evaluate(EdgeLengthPositionOptimization.java:42)",
+      "count": 3,
+      "cases": [
+        "0428",
+        "0449",
+        "0678"
+      ]
+    },
+    {
+      "signature": "NullPointerException: Cannot read field \"x\" because \"positionN\" is null",
+      "frame": "org.eclipse.elk.alg.radial.intermediate.optimization.CrossingMinimizationPosition.isCrossing(CrossingMinimizationPosition.java:72)",
+      "count": 3,
+      "cases": [
+        "0529",
+        "0608",
+        "0886"
+      ]
+    },
+    {
+      "signature": "ArrayIndexOutOfBoundsException: Index N out of bounds for length N",
+      "frame": "org.eclipse.elk.alg.layered.p3order.counting.BinaryIndexedTree.add(BinaryIndexedTree.java:53)",
+      "count": 2,
+      "cases": [
+        "0000",
+        "0331"
+      ]
+    },
+    {
+      "signature": "NullPointerException: Cannot read field \"x\" because \"positionN\" is null",
+      "frame": "org.eclipse.elk.alg.radial.RadialUtil.lambda$0(RadialUtil.java:154)",
+      "count": 2,
+      "cases": [
+        "0138",
+        "0726"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Invalid port label placement: [INSIDE, NEXT_TO_PORT_IF_POSSIBLE, ALWAYS_SAME_SIDE, SPACE_EFFICIENT]",
+      "frame": "org.eclipse.elk.alg.common.nodespacing.internal.NodeContext.<init>(NodeContext.java:153)",
+      "count": 2,
+      "cases": [
+        "0157",
+        "0464"
+      ]
+    },
+    {
+      "signature": "StackOverflowError",
+      "frame": "org.eclipse.elk.graph.properties.MapPropertyHolder.setProperty(MapPropertyHolder.java:42)",
+      "count": 2,
+      "cases": [
+        "0230",
+        "0702"
+      ]
+    },
+    {
+      "signature": "IllegalArgumentException: The vector chain must contain at least a source and a target point.",
+      "frame": "org.eclipse.elk.core.util.ElkUtil.applyVectorChain(ElkUtil.java:938)",
+      "count": 2,
+      "cases": [
+        "0328",
+        "0968"
+      ]
+    },
+    {
+      "signature": "IllegalStateException: Invalid hitboxes for scanline constraint calculation.",
+      "frame": "org.eclipse.elk.alg.common.compaction.oned.ScanlineConstraintCalculator$ConstraintsScanlineHandler.insert(ScanlineConstraintCalculator.java:177)",
+      "count": 2,
+      "cases": [
+        "0637",
+        "0675"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Invalid port label placement: [ALWAYS_SAME_SIDE, SPACE_EFFICIENT]",
+      "frame": "org.eclipse.elk.alg.common.nodespacing.internal.NodeContext.<init>(NodeContext.java:153)",
+      "count": 2,
+      "cases": [
+        "0899",
+        "0982"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Invalid port label placement: [ALWAYS_SAME_SIDE, ALWAYS_OTHER_SAME_SIDE, SPACE_EFFICIENT]",
+      "frame": "org.eclipse.elk.alg.common.nodespacing.internal.NodeContext.<init>(NodeContext.java:153)",
+      "count": 1,
+      "cases": [
+        "0082"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Invalid port label placement: [OUTSIDE, INSIDE, ALWAYS_SAME_SIDE]",
+      "frame": "org.eclipse.elk.alg.common.nodespacing.internal.NodeContext.<init>(NodeContext.java:153)",
+      "count": 1,
+      "cases": [
+        "0089"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Invalid node label placement: [H_LEFT, H_CENTER, V_TOP]",
+      "frame": "org.eclipse.elk.alg.common.nodespacing.internal.NodeContext.<init>(NodeContext.java:159)",
+      "count": 1,
+      "cases": [
+        "0204"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Node 'N zNoNl-sr-' has its layer constraint set to LAST, but has at least one outgoing edge that  does not go to a LAST_SEPAR",
+      "frame": "org.eclipse.elk.alg.layered.intermediate.LayerConstraintPostprocessor.throwUpUnlessNoOutgoingEdges(LayerConstraintPostprocessor.java:244)",
+      "count": 1,
+      "cases": [
+        "0205"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Invalid node label placement: [V_TOP, INSIDE, OUTSIDE]",
+      "frame": "org.eclipse.elk.alg.common.nodespacing.internal.NodeContext.<init>(NodeContext.java:159)",
+      "count": 1,
+      "cases": [
+        "0214"
+      ]
+    },
+    {
+      "signature": "UnsupportedGraphException: The source or the target of edge ElkEdge ElkNode \"nN\" (N.N,-N.N | N.N,N.N) -> ElkNode \"nN\" (-N.N,-N.N | N.N,N.N) could not be found. ",
+      "frame": "org.eclipse.elk.alg.layered.graph.transform.ElkGraphImporter.transformEdge(ElkGraphImporter.java:1130)",
+      "count": 1,
+      "cases": [
+        "0292"
+      ]
+    },
+    {
+      "signature": "UnsupportedGraphException: The source or the target of edge ElkEdge \"_xh\" ElkNode \"nN\" (N.N,N.N | N.N,N.N) -> ElkNode \"nN\" (N.N,N.N | N.N,N.N) could not be foun",
+      "frame": "org.eclipse.elk.alg.layered.graph.transform.ElkGraphImporter.transformEdge(ElkGraphImporter.java:1130)",
+      "count": 1,
+      "cases": [
+        "0376"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Topdown layout cannot be used together with hierarchy handling.",
+      "frame": "org.eclipse.elk.core.RecursiveGraphLayoutEngine.layoutRecursively(RecursiveGraphLayoutEngine.java:180)",
+      "count": 1,
+      "cases": [
+        "0382"
+      ]
+    },
+    {
+      "signature": "NullPointerException: Cannot read field \"y\" because \"portNodeSize\" is null",
+      "frame": "org.eclipse.elk.alg.layered.graph.LGraphUtil.createExternalPortDummy(LGraphUtil.java:944)",
+      "count": 1,
+      "cases": [
+        "0412"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Invalid node label placement: [H_RIGHT, INSIDE, OUTSIDE]",
+      "frame": "org.eclipse.elk.alg.common.nodespacing.internal.NodeContext.<init>(NodeContext.java:159)",
+      "count": 1,
+      "cases": [
+        "0567"
+      ]
+    },
+    {
+      "signature": "NegativeArraySizeException: -N",
+      "frame": "org.eclipse.elk.alg.common.polyomino.structures.TwoBitGrid.reinitialize(TwoBitGrid.java:117)",
+      "count": 1,
+      "cases": [
+        "0613"
+      ]
+    },
+    {
+      "signature": "StringIndexOutOfBoundsException: Range [N, N) out of bounds for length N",
+      "frame": "",
+      "count": 1,
+      "cases": [
+        "0674"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Invalid node label placement: [H_LEFT, H_CENTER, V_BOTTOM, OUTSIDE, H_PRIORITY]",
+      "frame": "org.eclipse.elk.alg.common.nodespacing.internal.NodeContext.<init>(NodeContext.java:159)",
+      "count": 1,
+      "cases": [
+        "0715"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Invalid vertical constraints. Node nN has a vertical constraint that is too low for its ancestors.",
+      "frame": "org.eclipse.elk.alg.vertiflex.VertiFlexLayoutProvider.checkVerticalConstraintValidity(VertiFlexLayoutProvider.java:151)",
+      "count": 1,
+      "cases": [
+        "0765"
+      ]
+    },
+    {
+      "signature": "UnsupportedGraphException: The source or the target of edge ElkEdge ElkNode \"nN\" (N.N,N.N | N.N,N.N) -> ElkNode \"nN\" (N.N,N.N | N.N,N.N) could not be found. Thi",
+      "frame": "org.eclipse.elk.alg.layered.graph.transform.ElkGraphImporter.transformEdge(ElkGraphImporter.java:1130)",
+      "count": 1,
+      "cases": [
+        "0798"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Invalid node label placement: [H_CENTER, V_CENTER, V_BOTTOM, OUTSIDE]",
+      "frame": "org.eclipse.elk.alg.common.nodespacing.internal.NodeContext.<init>(NodeContext.java:159)",
+      "count": 1,
+      "cases": [
+        "0823"
+      ]
+    },
+    {
+      "signature": "StackOverflowError",
+      "frame": "org.eclipse.elk.alg.radial.RadialUtil.getSuccessors(RadialUtil.java:57)",
+      "count": 1,
+      "cases": [
+        "0883"
+      ]
+    },
+    {
+      "signature": "StackOverflowError",
+      "frame": "org.eclipse.elk.alg.vertiflex.p4edgerouting.StraightEdgeRouter.routeEdges(StraightEdgeRouter.java:59)",
+      "count": 1,
+      "cases": [
+        "0937"
+      ]
+    },
+    {
+      "signature": "UnsupportedConfigurationException: Invalid port label placement: [NEXT_TO_PORT_IF_POSSIBLE, ALWAYS_SAME_SIDE, ALWAYS_OTHER_SAME_SIDE]",
+      "frame": "org.eclipse.elk.alg.common.nodespacing.internal.NodeContext.<init>(NodeContext.java:153)",
+      "count": 1,
+      "cases": [
+        "0988"
+      ]
+    }
+  ],
+  "issues": {
+    "edge(s) without a route": 196,
+    "overlapping node pair(s)": 161,
+    "edge(s) not touching their endpoints": 91,
+    "non-finite coordinate(s)": 16,
+    "child node(s) outside their parent": 7
+  },
+  "edgeCaseTags": {
+    "empty-or-single": 31,
+    "option-extreme": 170,
+    "zero-size": 23,
+    "duplicate-ports": 19,
+    "spacing-negative": 16,
+    "long-labels": 19,
+    "isolated": 13,
+    "spacing-zero": 13,
+    "nan-size": 16,
+    "large": 18,
+    "multi-edges": 13,
+    "negative-size": 11,
+    "self-loops": 16,
+    "huge-node": 20,
+    "far-position": 20,
+    "thin-nodes": 16,
+    "spacing-huge": 15
+  },
+  "timeouts": [
+    "0004",
+    "0070",
+    "0180",
+    "0191",
+    "0243",
+    "0262",
+    "0321",
+    "0785"
+  ],
+  "distinctOptionsExercised": 200,
+  "totalNodes": 68254,
+  "totalEdges": 93950,
+  "totalLayoutMillis": 119018
+}

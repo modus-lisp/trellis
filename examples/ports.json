@@ -1,0 +1,147 @@
+{
+ "id": "root",
+ "layoutOptions": {
+  "elk.direction": "RIGHT"
+ },
+ "children": [
+  {
+   "id": "source",
+   "width": 80,
+   "height": 60,
+   "labels": [
+    {
+     "text": "source"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "out1",
+     "width": 8,
+     "height": 8,
+     "layoutOptions": {
+      "elk.port.side": "EAST"
+     }
+    },
+    {
+     "id": "out2",
+     "width": 8,
+     "height": 8,
+     "layoutOptions": {
+      "elk.port.side": "EAST"
+     }
+    },
+    {
+     "id": "out3",
+     "width": 8,
+     "height": 8,
+     "layoutOptions": {
+      "elk.port.side": "EAST"
+     }
+    }
+   ]
+  },
+  {
+   "id": "merge",
+   "width": 80,
+   "height": 60,
+   "labels": [
+    {
+     "text": "merge"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "in1",
+     "width": 8,
+     "height": 8,
+     "layoutOptions": {
+      "elk.port.side": "WEST"
+     }
+    },
+    {
+     "id": "in2",
+     "width": 8,
+     "height": 8,
+     "layoutOptions": {
+      "elk.port.side": "WEST"
+     }
+    },
+    {
+     "id": "m-out",
+     "width": 8,
+     "height": 8,
+     "layoutOptions": {
+      "elk.port.side": "EAST"
+     }
+    }
+   ]
+  },
+  {
+   "id": "sink",
+   "width": 80,
+   "height": 60,
+   "labels": [
+    {
+     "text": "sink"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "s-in",
+     "width": 8,
+     "height": 8,
+     "layoutOptions": {
+      "elk.port.side": "WEST"
+     }
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "id": "p1",
+   "sources": [
+    "out1"
+   ],
+   "targets": [
+    "in1"
+   ]
+  },
+  {
+   "id": "p2",
+   "sources": [
+    "out2"
+   ],
+   "targets": [
+    "in2"
+   ]
+  },
+  {
+   "id": "p3",
+   "sources": [
+    "out3"
+   ],
+   "targets": [
+    "s-in"
+   ]
+  },
+  {
+   "id": "p4",
+   "sources": [
+    "m-out"
+   ],
+   "targets": [
+    "s-in"
+   ]
+  }
+ ]
+}

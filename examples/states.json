@@ -1,0 +1,162 @@
+{
+ "id": "root",
+ "layoutOptions": {
+  "elk.direction": "RIGHT",
+  "elk.layered.spacing.nodeNodeBetweenLayers": "50",
+  "elk.layered.cycleBreaking.strategy": "MODEL_ORDER"
+ },
+ "children": [
+  {
+   "id": "idle",
+   "width": 80,
+   "height": 36,
+   "labels": [
+    {
+     "text": "idle"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   }
+  },
+  {
+   "id": "running",
+   "width": 80,
+   "height": 36,
+   "labels": [
+    {
+     "text": "running"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   }
+  },
+  {
+   "id": "paused",
+   "width": 80,
+   "height": 36,
+   "labels": [
+    {
+     "text": "paused"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   }
+  },
+  {
+   "id": "done",
+   "width": 80,
+   "height": 36,
+   "labels": [
+    {
+     "text": "done"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "t1",
+   "sources": [
+    "idle"
+   ],
+   "targets": [
+    "running"
+   ],
+   "labels": [
+    {
+     "text": "start"
+    }
+   ]
+  },
+  {
+   "id": "t2",
+   "sources": [
+    "running"
+   ],
+   "targets": [
+    "paused"
+   ],
+   "labels": [
+    {
+     "text": "pause"
+    }
+   ]
+  },
+  {
+   "id": "t3",
+   "sources": [
+    "paused"
+   ],
+   "targets": [
+    "running"
+   ],
+   "labels": [
+    {
+     "text": "resume"
+    }
+   ]
+  },
+  {
+   "id": "t4",
+   "sources": [
+    "running"
+   ],
+   "targets": [
+    "done"
+   ],
+   "labels": [
+    {
+     "text": "finish"
+    }
+   ]
+  },
+  {
+   "id": "t5",
+   "sources": [
+    "running"
+   ],
+   "targets": [
+    "running"
+   ],
+   "labels": [
+    {
+     "text": "tick"
+    }
+   ]
+  },
+  {
+   "id": "t6",
+   "sources": [
+    "done"
+   ],
+   "targets": [
+    "idle"
+   ],
+   "labels": [
+    {
+     "text": "reset"
+    }
+   ]
+  },
+  {
+   "id": "t7",
+   "sources": [
+    "paused"
+   ],
+   "targets": [
+    "done"
+   ],
+   "labels": [
+    {
+     "text": "cancel"
+    }
+   ]
+  }
+ ]
+}

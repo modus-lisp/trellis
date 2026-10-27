@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="336.0" height="95.0" viewBox="0 0 336.0 95.0" font-family="sans-serif" font-size="11">
+<rect x="12.00" y="17.00" width="80.00" height="60.00" fill="#e8eef9" stroke="#555" rx="3"/>
+<text x="31.00" y="51.50" fill="#222">source</text>
+<rect x="92.00" y="28.00" width="8.00" height="8.00" fill="#333"/>
+<rect x="92.00" y="43.00" width="8.00" height="8.00" fill="#333"/>
+<rect x="92.00" y="58.00" width="8.00" height="8.00" fill="#333"/>
+<rect x="128.00" y="12.00" width="80.00" height="60.00" fill="#e8eef9" stroke="#555" rx="3"/>
+<text x="150.50" y="46.50" fill="#222">merge</text>
+<rect x="120.00" y="28.00" width="8.00" height="8.00" fill="#333"/>
+<rect x="120.00" y="48.00" width="8.00" height="8.00" fill="#333"/>
+<rect x="208.00" y="38.00" width="8.00" height="8.00" fill="#333"/>
+<rect x="244.00" y="12.00" width="80.00" height="60.00" fill="#e8eef9" stroke="#555" rx="3"/>
+<text x="270.00" y="46.50" fill="#222">sink</text>
+<rect x="236.00" y="38.00" width="8.00" height="8.00" fill="#333"/>
+<polyline fill="none" stroke="#333" stroke-width="1.2" points="100.00,32.00 120.00,32.00"/>
+<polyline fill="none" stroke="#333" stroke-width="1.2" points="100.00,47.00 110.00,47.00 110.00,52.00 120.00,52.00"/>
+<polyline fill="none" stroke="#333" stroke-width="1.2" points="100.00,62.00 110.00,62.00 110.00,82.50 226.00,82.50 226.00,42.00 236.00,42.00"/>
+<polyline fill="none" stroke="#333" stroke-width="1.2" points="216.00,42.00 236.00,42.00"/>
+</svg>

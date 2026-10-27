@@ -1,0 +1,1 @@
+{"id":"n0","children":[{"id":"n0_g034960","width":108.0,"height":56.0},{"id":"n1","width":90.0,"height":63.0}],"layoutOptions":{"algorithm":"org.eclipse.elk.stress","elk.padding":"[top=20.0,left=20.0,bottom=20.0,right=20.0]","epsilon":"1.0E-9"},"edges":[{"id":"e0","sources":["n0_g034960"],"targets":["n1"]}]}

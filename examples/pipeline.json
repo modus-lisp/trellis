@@ -1,0 +1,98 @@
+{
+ "id": "root",
+ "layoutOptions": {
+  "elk.direction": "RIGHT"
+ },
+ "children": [
+  {
+   "id": "read",
+   "width": 80,
+   "height": 36,
+   "labels": [
+    {
+     "text": "read"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   }
+  },
+  {
+   "id": "parse",
+   "width": 80,
+   "height": 36,
+   "labels": [
+    {
+     "text": "parse"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   }
+  },
+  {
+   "id": "check",
+   "width": 80,
+   "height": 36,
+   "labels": [
+    {
+     "text": "check"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   }
+  },
+  {
+   "id": "emit",
+   "width": 80,
+   "height": 36,
+   "labels": [
+    {
+     "text": "emit"
+    }
+   ],
+   "layoutOptions": {
+    "elk.nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"
+   }
+  }
+ ],
+ "edges": [
+  {
+   "id": "e1",
+   "sources": [
+    "read"
+   ],
+   "targets": [
+    "parse"
+   ]
+  },
+  {
+   "id": "e2",
+   "sources": [
+    "parse"
+   ],
+   "targets": [
+    "check"
+   ]
+  },
+  {
+   "id": "e3",
+   "sources": [
+    "check"
+   ],
+   "targets": [
+    "emit"
+   ]
+  },
+  {
+   "id": "e4",
+   "sources": [
+    "read"
+   ],
+   "targets": [
+    "check"
+   ]
+  }
+ ]
+}

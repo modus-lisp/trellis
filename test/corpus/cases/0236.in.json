@@ -1,0 +1,1 @@
+{"id":"n0","children":[{"id":"n0_g309585","x":246.52790754470848,"y":193.0214175761501},{"id":"n1","x":171.51661086948678,"y":-130.18537293472073,"width":40.0,"height":24.0}],"layoutOptions":{"algorithm":"org.eclipse.elk.fixed","elk.padding":"[top=20.0,left=20.0,bottom=20.0,right=20.0]"},"edges":[{"id":"e0","sources":["n0_g309585"],"targets":["n1"]}]}

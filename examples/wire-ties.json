@@ -1,0 +1,1047 @@
+{
+ "id": "root",
+ "layoutOptions": {
+  "elk.direction": "RIGHT",
+  "elk.edgeRouting": "SPLINES",
+  "trellis.wireTies": "true",
+  "elk.layered.spacing.nodeNodeBetweenLayers": "90",
+  "elk.spacing.nodeNode": "30"
+ },
+ "children": [
+  {
+   "id": "focus",
+   "width": 150,
+   "height": 42,
+   "labels": [
+    {
+     "text": "In Focus"
+    }
+   ],
+   "layoutOptions": {
+    "portConstraints": "FIXED_SIDE",
+    "nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "portLabels.placement": "[INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "focus_out_focus",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Focus"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "repo",
+   "width": 150,
+   "height": 64,
+   "labels": [
+    {
+     "text": "Resolve Repo"
+    }
+   ],
+   "layoutOptions": {
+    "portConstraints": "FIXED_SIDE",
+    "nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "portLabels.placement": "[INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "repo_out_repo",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Repo"
+      }
+     ]
+    },
+    {
+     "id": "repo_out_root",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Root"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "diff",
+   "width": 150,
+   "height": 64,
+   "labels": [
+    {
+     "text": "Branch Diff"
+    }
+   ],
+   "layoutOptions": {
+    "portConstraints": "FIXED_SIDE",
+    "nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "portLabels.placement": "[INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "diff_in_repo",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Repo"
+      }
+     ]
+    },
+    {
+     "id": "diff_out_diff",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Diff"
+      }
+     ]
+    },
+    {
+     "id": "diff_out_patch",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Patch"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ctx",
+   "width": 150,
+   "height": 86,
+   "labels": [
+    {
+     "text": "Review Context"
+    }
+   ],
+   "layoutOptions": {
+    "portConstraints": "FIXED_SIDE",
+    "nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "portLabels.placement": "[INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "ctx_in_repo",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Repo"
+      }
+     ]
+    },
+    {
+     "id": "ctx_in_diff",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Diff"
+      }
+     ]
+    },
+    {
+     "id": "ctx_in_focus",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Focus"
+      }
+     ]
+    },
+    {
+     "id": "ctx_out_context",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Context"
+      }
+     ]
+    },
+    {
+     "id": "ctx_out_patch",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Patch"
+      }
+     ]
+    },
+    {
+     "id": "ctx_out_focus",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Focus"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "corr",
+   "width": 170,
+   "height": 108,
+   "labels": [
+    {
+     "text": "Correctness Reviewer"
+    }
+   ],
+   "layoutOptions": {
+    "portConstraints": "FIXED_SIDE",
+    "nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "portLabels.placement": "[INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "corr_in_repo",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Repo"
+      }
+     ]
+    },
+    {
+     "id": "corr_in_patch",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Patch"
+      }
+     ]
+    },
+    {
+     "id": "corr_in_context",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Context"
+      }
+     ]
+    },
+    {
+     "id": "corr_in_focus",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Focus"
+      }
+     ]
+    },
+    {
+     "id": "corr_out_findings",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Findings"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "arch",
+   "width": 170,
+   "height": 108,
+   "labels": [
+    {
+     "text": "Architecture Reviewer"
+    }
+   ],
+   "layoutOptions": {
+    "portConstraints": "FIXED_SIDE",
+    "nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "portLabels.placement": "[INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "arch_in_repo",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Repo"
+      }
+     ]
+    },
+    {
+     "id": "arch_in_patch",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Patch"
+      }
+     ]
+    },
+    {
+     "id": "arch_in_context",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Context"
+      }
+     ]
+    },
+    {
+     "id": "arch_in_focus",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Focus"
+      }
+     ]
+    },
+    {
+     "id": "arch_out_findings",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Findings"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "conv",
+   "width": 170,
+   "height": 108,
+   "labels": [
+    {
+     "text": "Conventions Reviewer"
+    }
+   ],
+   "layoutOptions": {
+    "portConstraints": "FIXED_SIDE",
+    "nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "portLabels.placement": "[INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "conv_in_repo",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Repo"
+      }
+     ]
+    },
+    {
+     "id": "conv_in_patch",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Patch"
+      }
+     ]
+    },
+    {
+     "id": "conv_in_context",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Context"
+      }
+     ]
+    },
+    {
+     "id": "conv_in_focus",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Focus"
+      }
+     ]
+    },
+    {
+     "id": "conv_out_findings",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Findings"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ux",
+   "width": 170,
+   "height": 108,
+   "labels": [
+    {
+     "text": "UI & UX Reviewer"
+    }
+   ],
+   "layoutOptions": {
+    "portConstraints": "FIXED_SIDE",
+    "nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "portLabels.placement": "[INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "ux_in_repo",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Repo"
+      }
+     ]
+    },
+    {
+     "id": "ux_in_patch",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Patch"
+      }
+     ]
+    },
+    {
+     "id": "ux_in_context",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Context"
+      }
+     ]
+    },
+    {
+     "id": "ux_in_focus",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Focus"
+      }
+     ]
+    },
+    {
+     "id": "ux_out_findings",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Findings"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "merge",
+   "width": 150,
+   "height": 108,
+   "labels": [
+    {
+     "text": "Merge Findings"
+    }
+   ],
+   "layoutOptions": {
+    "portConstraints": "FIXED_SIDE",
+    "nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "portLabels.placement": "[INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "merge_in_correctness",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Correctness"
+      }
+     ]
+    },
+    {
+     "id": "merge_in_architecture",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Architecture"
+      }
+     ]
+    },
+    {
+     "id": "merge_in_conventions",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Conventions"
+      }
+     ]
+    },
+    {
+     "id": "merge_in_ui_and_ux",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "UI & UX"
+      }
+     ]
+    },
+    {
+     "id": "merge_out_findings",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Findings"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "verify",
+   "width": 150,
+   "height": 86,
+   "labels": [
+    {
+     "text": "Verify Findings"
+    }
+   ],
+   "layoutOptions": {
+    "portConstraints": "FIXED_SIDE",
+    "nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "portLabels.placement": "[INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "verify_in_findings",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Findings"
+      }
+     ]
+    },
+    {
+     "id": "verify_in_repo",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Repo"
+      }
+     ]
+    },
+    {
+     "id": "verify_in_patch",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Patch"
+      }
+     ]
+    },
+    {
+     "id": "verify_out_kept",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Kept"
+      }
+     ]
+    },
+    {
+     "id": "verify_out_dropped",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Dropped"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tally",
+   "width": 150,
+   "height": 64,
+   "labels": [
+    {
+     "text": "Tally Findings"
+    }
+   ],
+   "layoutOptions": {
+    "portConstraints": "FIXED_SIDE",
+    "nodeLabels.placement": "[H_CENTER, V_TOP, INSIDE]",
+    "portLabels.placement": "[INSIDE]"
+   },
+   "ports": [
+    {
+     "id": "tally_in_kept",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Kept"
+      }
+     ]
+    },
+    {
+     "id": "tally_in_dropped",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "WEST"
+     },
+     "labels": [
+      {
+       "text": "Dropped"
+      }
+     ]
+    },
+    {
+     "id": "tally_out_report",
+     "width": 6,
+     "height": 6,
+     "layoutOptions": {
+      "port.side": "EAST"
+     },
+     "labels": [
+      {
+       "text": "Report"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "edges": [
+  {
+   "id": "e0",
+   "sources": [
+    "repo_out_repo"
+   ],
+   "targets": [
+    "diff_in_repo"
+   ]
+  },
+  {
+   "id": "e1",
+   "sources": [
+    "repo_out_repo"
+   ],
+   "targets": [
+    "ctx_in_repo"
+   ]
+  },
+  {
+   "id": "e2",
+   "sources": [
+    "diff_out_diff"
+   ],
+   "targets": [
+    "ctx_in_diff"
+   ]
+  },
+  {
+   "id": "e3",
+   "sources": [
+    "focus_out_focus"
+   ],
+   "targets": [
+    "ctx_in_focus"
+   ]
+  },
+  {
+   "id": "e4",
+   "sources": [
+    "repo_out_root"
+   ],
+   "targets": [
+    "corr_in_repo"
+   ]
+  },
+  {
+   "id": "e5",
+   "sources": [
+    "diff_out_patch"
+   ],
+   "targets": [
+    "corr_in_patch"
+   ]
+  },
+  {
+   "id": "e6",
+   "sources": [
+    "ctx_out_context"
+   ],
+   "targets": [
+    "corr_in_context"
+   ]
+  },
+  {
+   "id": "e7",
+   "sources": [
+    "ctx_out_focus"
+   ],
+   "targets": [
+    "corr_in_focus"
+   ]
+  },
+  {
+   "id": "e8",
+   "sources": [
+    "corr_out_findings"
+   ],
+   "targets": [
+    "merge_in_correctness"
+   ]
+  },
+  {
+   "id": "e9",
+   "sources": [
+    "repo_out_root"
+   ],
+   "targets": [
+    "arch_in_repo"
+   ]
+  },
+  {
+   "id": "e10",
+   "sources": [
+    "diff_out_patch"
+   ],
+   "targets": [
+    "arch_in_patch"
+   ]
+  },
+  {
+   "id": "e11",
+   "sources": [
+    "ctx_out_context"
+   ],
+   "targets": [
+    "arch_in_context"
+   ]
+  },
+  {
+   "id": "e12",
+   "sources": [
+    "ctx_out_focus"
+   ],
+   "targets": [
+    "arch_in_focus"
+   ]
+  },
+  {
+   "id": "e13",
+   "sources": [
+    "arch_out_findings"
+   ],
+   "targets": [
+    "merge_in_architecture"
+   ]
+  },
+  {
+   "id": "e14",
+   "sources": [
+    "repo_out_root"
+   ],
+   "targets": [
+    "conv_in_repo"
+   ]
+  },
+  {
+   "id": "e15",
+   "sources": [
+    "diff_out_patch"
+   ],
+   "targets": [
+    "conv_in_patch"
+   ]
+  },
+  {
+   "id": "e16",
+   "sources": [
+    "ctx_out_context"
+   ],
+   "targets": [
+    "conv_in_context"
+   ]
+  },
+  {
+   "id": "e17",
+   "sources": [
+    "ctx_out_focus"
+   ],
+   "targets": [
+    "conv_in_focus"
+   ]
+  },
+  {
+   "id": "e18",
+   "sources": [
+    "conv_out_findings"
+   ],
+   "targets": [
+    "merge_in_conventions"
+   ]
+  },
+  {
+   "id": "e19",
+   "sources": [
+    "repo_out_root"
+   ],
+   "targets": [
+    "ux_in_repo"
+   ]
+  },
+  {
+   "id": "e20",
+   "sources": [
+    "diff_out_patch"
+   ],
+   "targets": [
+    "ux_in_patch"
+   ]
+  },
+  {
+   "id": "e21",
+   "sources": [
+    "ctx_out_context"
+   ],
+   "targets": [
+    "ux_in_context"
+   ]
+  },
+  {
+   "id": "e22",
+   "sources": [
+    "ctx_out_focus"
+   ],
+   "targets": [
+    "ux_in_focus"
+   ]
+  },
+  {
+   "id": "e23",
+   "sources": [
+    "ux_out_findings"
+   ],
+   "targets": [
+    "merge_in_ui_and_ux"
+   ]
+  },
+  {
+   "id": "e24",
+   "sources": [
+    "merge_out_findings"
+   ],
+   "targets": [
+    "verify_in_findings"
+   ]
+  },
+  {
+   "id": "e25",
+   "sources": [
+    "repo_out_root"
+   ],
+   "targets": [
+    "verify_in_repo"
+   ]
+  },
+  {
+   "id": "e26",
+   "sources": [
+    "diff_out_patch"
+   ],
+   "targets": [
+    "verify_in_patch"
+   ]
+  },
+  {
+   "id": "e27",
+   "sources": [
+    "verify_out_kept"
+   ],
+   "targets": [
+    "tally_in_kept"
+   ]
+  },
+  {
+   "id": "e28",
+   "sources": [
+    "verify_out_dropped"
+   ],
+   "targets": [
+    "tally_in_dropped"
+   ]
+  }
+ ]
+}

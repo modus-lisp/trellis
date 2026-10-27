@@ -1,0 +1,39 @@
+{
+  "id": "root",
+  "layoutOptions": {"elk.direction": "RIGHT", "elk.spacing.nodeNode": "25"},
+  "children": [
+    {"id": "1", "width": 60, "height": 50, "labels": [{"text": "1"}],
+     "layoutOptions": {"portConstraints": "FIXED_SIDE", "nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"},
+     "ports": [{"id": "1e1", "width": 6, "height": 6, "layoutOptions": {"port.side": "EAST"}},
+               {"id": "1e2", "width": 6, "height": 6, "layoutOptions": {"port.side": "EAST"}},
+               {"id": "1n", "width": 6, "height": 6, "layoutOptions": {"port.side": "NORTH"}}]},
+    {"id": "2", "width": 60, "height": 50, "labels": [{"text": "2"}],
+     "layoutOptions": {"portConstraints": "FIXED_SIDE", "nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"},
+     "ports": [{"id": "2w", "width": 6, "height": 6, "layoutOptions": {"port.side": "WEST"}},
+               {"id": "2s", "width": 6, "height": 6, "layoutOptions": {"port.side": "SOUTH"}},
+               {"id": "2e", "width": 6, "height": 6, "layoutOptions": {"port.side": "EAST"}}]},
+    {"id": "3", "width": 60, "height": 70, "labels": [{"text": "3"}],
+     "layoutOptions": {"portConstraints": "FIXED_SIDE", "nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"},
+     "ports": [{"id": "3w1", "width": 6, "height": 6, "layoutOptions": {"port.side": "WEST"}},
+               {"id": "3w2", "width": 6, "height": 6, "layoutOptions": {"port.side": "WEST"}},
+               {"id": "3n1", "width": 6, "height": 6, "layoutOptions": {"port.side": "NORTH"}},
+               {"id": "3n2", "width": 6, "height": 6, "layoutOptions": {"port.side": "NORTH"}},
+               {"id": "3s", "width": 6, "height": 6, "layoutOptions": {"port.side": "SOUTH"}},
+               {"id": "3e", "width": 6, "height": 6, "layoutOptions": {"port.side": "EAST"}}]},
+    {"id": "4", "width": 60, "height": 50, "labels": [{"text": "4"}],
+     "layoutOptions": {"portConstraints": "FIXED_SIDE", "nodeLabels.placement": "[H_CENTER, V_CENTER, INSIDE]"},
+     "ports": [{"id": "4w", "width": 6, "height": 6, "layoutOptions": {"port.side": "WEST"}},
+               {"id": "4e", "width": 6, "height": 6, "layoutOptions": {"port.side": "EAST"}},
+               {"id": "4n", "width": 6, "height": 6, "layoutOptions": {"port.side": "NORTH"}}]}
+  ],
+  "edges": [
+    {"id": "a", "sources": ["1e1"], "targets": ["3w1"]},
+    {"id": "b", "sources": ["1e2"], "targets": ["2w"]},
+    {"id": "c", "sources": ["2s"], "targets": ["3s"]},
+    {"id": "d", "sources": ["2e"], "targets": ["3n1"]},
+    {"id": "e", "sources": ["1n"], "targets": ["4w"]},
+    {"id": "f", "sources": ["4e"], "targets": ["3n2"]},
+    {"id": "g", "sources": ["3e"], "targets": ["4n"]},
+    {"id": "h", "sources": ["3w2"], "targets": ["2e"]}
+  ]
+}
